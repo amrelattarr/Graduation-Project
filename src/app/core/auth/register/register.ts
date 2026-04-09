@@ -40,20 +40,81 @@ export class Register implements OnInit{
   passwordControl:any
   roleControl:any
 
-  submit() {
-    if(this.registerForm.valid) {
-      this.subscription.unsubscribe();
-      this.subscription = this.authService.registerForm(this.registerForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-        },error: (err) => {
-          console.error(err);
-        }
-      });
-    } else {
-      this.registerForm.setErrors({mismatch: true});
-      this.registerForm.markAllAsTouched();
-    }
+  submit(): void {
+  if (this.registerForm.invalid) {
+    console.log('Form is invalid');
+    console.log('fullName errors:', this.registerForm.get('fullName')?.errors);
+    console.log('phone errors:', this.registerForm.get('phone')?.errors);
+    console.log('email errors:', this.registerForm.get('email')?.errors);
+    console.log('password errors:', this.registerForm.get('password')?.errors);
+    console.log('role errors:', this.registerForm.get('role')?.errors);
+
+    this.registerForm.markAllAsTouched();
+    return;
   }
+
+  this.subscription.unsubscribe();
+  this.subscription = this.authService.registerForm(this.registerForm.value).subscribe({
+   next: (res) => {
+  console.log('Success response:', res);
+
+  // 1. Try every common property name for a token
+  const token = res.token || res.accessToken || res.data?.token || res.data?.accessToken;
+  
+  // 2. Safely capture the role
+  const role = this.registerForm.value.role;
+
+  if (token) {
+    // 3. Save to LocalStorage
+    this.authService.saveUserData(
+      token, 
+      role, 
+      res.profileCompleted ?? false
+    );
+
+    // 4. Navigation
+    if (role.toLowerCase() === 'charityadmin') {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/profile']);
+    }
+  } else {
+    // If this triggers, look at your Console and see what 'res' actually contains
+    console.error('CRITICAL: Token not found in response. Check the naming in Console.');
+  }
+}
+  });
+}
+//   submit() {
+//     if(this.registerForm.valid) {
+//       this.subscription.unsubscribe();
+//       this.subscription = this.authService.registerForm(this.registerForm.value).subscribe({
+//         // next: (res) => {
+//         //   console.log(res);
+//         // },
+//         // 
+//         next: (res) => {
+//   console.log(res);
+
+//   this.authService.saveUserData(
+//     res.token,
+//     res.role,
+//     res.profileCompleted
+//   );
+
+//   if (!res.profileCompleted) {
+//     this.router.navigate(['/profile']);
+//   } else {
+//     this.router.navigate(['/']);
+//   }
+// },error: (err) => {
+//           console.error(err);
+//         }
+//       });
+//     } else {
+//       this.registerForm.setErrors({mismatch: true});
+//       this.registerForm.markAllAsTouched();
+//     }
+//   }
 
 }
