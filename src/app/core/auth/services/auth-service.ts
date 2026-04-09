@@ -55,4 +55,16 @@ createVolunteerProfile(data: object): Observable<any> {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+
+  login(data: object): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + "Authentication/Login", data);
+  }
+  
+  forgotPassword(data: object): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + "Authentication/ForgotPassword", data);
+  }
+  
+  changePassword(data: object): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + "Authentication/ChangePassword", data);
+  }
 }
