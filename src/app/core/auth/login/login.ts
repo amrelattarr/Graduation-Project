@@ -43,12 +43,10 @@ export class Login implements OnInit{
       this.subscription.unsubscribe();
       this.subscription = this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
-          // Store token (assuming backend returns token in res.token or res.data.token)
-          if (res.token) {
-            localStorage.setItem('authToken', res.token);
-          } else if (res.data && res.data.token) {
-            localStorage.setItem('authToken', res.data.token);
-          }
+          localStorage.setItem('accessToken', res.accessToken);
+          const decodedToken = this.decodeToken(res.accessToken);
+          const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+          localStorage.setItem('role', role);
           this.successMessage = 'Login successful!';
           this.isLoading = false;
           // Redirect to profile
@@ -63,6 +61,16 @@ export class Login implements OnInit{
       this.loginForm.setErrors({mismatch: true});
       this.loginForm.markAllAsTouched();
       this.errorMessage = 'Please fix the form errors.';
+    }
+  }
+
+  decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = atob(payload);
+      return JSON.parse(decoded);
+    } catch (error) {
+      return null;
     }
   }
 

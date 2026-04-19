@@ -34,20 +34,8 @@ export class Register implements OnInit{
     });
   }
 
-  nameControl:any
-  phoneControl:any
-  emailControl:any
-  passwordControl:any
-  roleControl:any
-
   submit(): void {
   if (this.registerForm.invalid) {
-    console.log('Form is invalid');
-    console.log('fullName errors:', this.registerForm.get('fullName')?.errors);
-    console.log('phone errors:', this.registerForm.get('phone')?.errors);
-    console.log('email errors:', this.registerForm.get('email')?.errors);
-    console.log('password errors:', this.registerForm.get('password')?.errors);
-    console.log('role errors:', this.registerForm.get('role')?.errors);
 
     this.registerForm.markAllAsTouched();
     return;

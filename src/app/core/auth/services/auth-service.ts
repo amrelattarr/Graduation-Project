@@ -59,6 +59,12 @@ createVolunteerProfile(data: object): Observable<any> {
   login(data: object): Observable<any> {
     return this.httpClient.post(environment.baseUrl + "Authentication/Login", data);
   }
+
+  logOut(): void {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role'); // if you stored it
+    this.router.navigate(['/login']);
+  }
   
   forgotPassword(data: object): Observable<any> {
     return this.httpClient.post(environment.baseUrl + "Authentication/ForgotPassword", data);
