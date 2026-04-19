@@ -1,0 +1,100 @@
+/* Profile matching design - neumorphic gold theme */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* FIELD GROUP */
+.field-group {
+  position: relative;
+}
+
+/* INPUT */
+.field-input {
+  width: 100%;
+  padding: 18px 16px;
+  border: 2px solid #F3F4F6;
+  border-radius: 18px;
+  font-size: 15px;
+  font-weight: 500;
+  background: #FAFAF7;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.field-input:focus {
+  border-color: #C5A059;
+  box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+  outline: none;
+  background: white;
+}
+
+/* LABEL */
+.field-label {
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  font-size: 14px;
+  color: #9CA3AF;
+  font-weight: 500;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  background: white;
+  padding: 0 6px;
+}
+
+/* FLOAT LABEL STATE */
+.field-input.peer:focus ~ .field-label,
+.field-input.peer:not(:placeholder-shown) ~ .field-label {
+  top: -9px;
+  font-size: 11px;
+  color: #C5A059;
+}
+
+/* BUTTONS */
+.submit-btn {
+  padding: 14px 24px;
+  background: #111;
+  color: white;
+  border-radius: 18px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  background: #000;
+}
+
+.refresh-btn {
+  padding: 14px 24px;
+  background: transparent;
+  border: 2px solid #E5E7EB;
+  border-radius: 18px;
+  color: #6B7280;
+}
+
+/* STATUS BADGES */
+.status-badge {
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+.loading {
+  background: #f3f4f6;
+}
+
+.pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.approved {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.no-charity {
+  background: #fee2e2;
+  color: #b91c1c;
+}

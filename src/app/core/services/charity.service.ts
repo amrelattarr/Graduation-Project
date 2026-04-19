@@ -1,0 +1,135 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment.development';
+
+import {
+  ApiResponse,
+  Charity,
+  CreateCharityRequest,
+  Donation,
+  Request,
+  Volunteer,
+  UpdateCharityInfoRequest,
+  UpdateCharityLocationRequest
+} from '../models/charity.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CharityService {
+  private readonly httpClient = inject(HttpClient);
+
+  // ================= CREATE =================
+  createCharity(data: CreateCharityRequest): Observable<ApiResponse<Charity>> {
+    return this.httpClient
+      .post<Charity>(
+        `${environment.baseUrl}Charity/CreateMyCharity`,
+        data
+      )
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= LIST =================
+  getCharityList(): Observable<ApiResponse<Charity[]>> {
+    return this.httpClient
+      .get<Charity[]>(
+        `${environment.baseUrl}Charity/List`
+      )
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= DETAILS =================
+  getCharityDetails(charityId: number): Observable<ApiResponse<Charity>> {
+    return this.httpClient
+      .get<Charity>(
+        `${environment.baseUrl}Charity/Details/${charityId}`
+      )
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= UPDATE INFO =================
+  updateCharityInfo(
+    data: UpdateCharityInfoRequest
+  ): Observable<ApiResponse<Charity>> {
+    return this.httpClient
+      .put<Charity>(
+        `${environment.baseUrl}Charity/UpdateCharityInfo`,
+        data
+      )
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= UPDATE LOCATION =================
+  updateCharityLocation(
+    data: UpdateCharityLocationRequest
+  ): Observable<ApiResponse<Charity>> {
+    return this.httpClient
+      .put<Charity>(
+        `${environment.baseUrl}Charity/UpdateCharityLocation`,
+        data
+      )
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= REQUESTS =================
+  getRequests(): Observable<ApiResponse<Request[]>> {
+    return this.httpClient
+      .get<Request[]>(`${environment.baseUrl}Request`)
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= DONATIONS =================
+  getDonations(): Observable<ApiResponse<Donation[]>> {
+    return this.httpClient
+      .get<Donation[]>(`${environment.baseUrl}Donation`)
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= VOLUNTEERS =================
+  getVolunteers(): Observable<ApiResponse<Volunteer[]>> {
+    return this.httpClient
+      .get<Volunteer[]>(`${environment.baseUrl}Volunteer`)
+      .pipe(
+        map((res) => ({ success: true, data: res })),
+        catchError(this.handleError)
+      );
+  }
+
+  // ================= ERROR HANDLING =================
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('API ERROR:', error);
+
+    return throwError(() => ({
+      success: false,
+      message:
+        error.error?.message ||
+        error.message ||
+        'An unexpected error occurred',
+      statusCode: error.status,
+    }));
+  }
+}

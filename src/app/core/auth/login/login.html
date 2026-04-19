@@ -1,0 +1,76 @@
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F2EDE6] to-[#e8dccb] px-4">
+
+    <div class="w-full max-w-md backdrop-blur-lg bg-white/80 border border-white/40 p-8 rounded-3xl shadow-2xl">
+    
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-extrabold text-[#C5A059] tracking-wide">
+          Login
+        </h2>
+      </div>
+    
+      <!-- Form -->
+      <form 
+        [formGroup]="loginForm" 
+        (ngSubmit)="submit()" 
+        class="flex flex-col gap-6"
+      >
+    
+        <!-- Email -->
+        <div class="relative">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder=" "
+            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
+          />
+          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
+            peer-placeholder-shown:top-3 
+            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
+            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
+            Email Address
+          </label>
+        </div>
+    
+        <!-- Password -->
+        <div class="relative">
+          <input
+            type="password"
+            formControlName="password"
+            placeholder=" "
+            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
+          />
+          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
+            peer-placeholder-shown:top-3 
+            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
+            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
+            Password
+          </label>
+        </div>
+    
+        <!-- Button -->
+        <button
+          type="submit"
+          class="mt-2 bg-[#C5A059] text-white p-3 rounded-xl cursor-pointer font-semibold tracking-wide hover:scale-[1.02] hover:shadow-lg transition-all duration-200"
+        >
+          Login
+        </button>
+    
+      </form>
+    
+      <!-- Footer -->
+      <div class="text-center space-y-1 mt-6">
+        <a routerLink="/forget-password" class="text-[#C5A059] font-semibold hover:underline block text-sm">
+          Forgot Password?
+        </a>
+        <p class="text-sm text-gray-500">
+          Don't have an account? 
+          <a routerLink="/register" class="text-[#C5A059] font-semibold hover:underline">
+            Register
+          </a>
+        </p>
+      </div>
+    
+    </div>
+  </div>

@@ -1,0 +1,102 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+  <div class="max-w-4xl mx-auto px-6">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Charity Details
+      </h1>
+      <p class="text-xl text-gray-600">
+        Your approved charity organization
+      </p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex justify-center items-center h-64">
+      <div class="spinner-lg"></div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+      <h3 class="text-2xl font-semibold text-red-800 mb-4">{{ error }}</h3>
+      <button routerLink="/charity-admin/home" class="btn btn-primary">
+        Go to Home
+      </button>
+    </div>
+
+    <!-- Charity Details Card -->
+    <div *ngIf="charity">
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <!-- Status Badge -->
+        <div class="bg-gradient-to-r from-green-500 to-green-600 px-8 py-6 text-white">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+              ✅
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold">Approved Status</h2>
+              <p class="opacity-90">Your charity is active and verified</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="p-12 grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-8">Organization Information</h3>
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <div class="w-3 h-3 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Organization Name</label>
+                  <p class="text-2xl font-bold text-gray-900">{{ charity.organizationName }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">License Number</label>
+                  <p class="font-mono bg-gray-100 px-4 py-2 rounded-xl text-lg">{{ charity.licenseNumber }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Location</label>
+                  <p class="text-xl">{{ charity.address }}, {{ charity.city }}, {{ charity.governorate }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-8">Coordinates</h3>
+            <div class="grid grid-cols-2 gap-6 mb-8">
+              <div class="text-center p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl">
+                <label class="block text-sm font-medium text-gray-500 mb-2">Latitude</label>
+                <p class="text-3xl font-bold text-indigo-700">{{ charity.latitude | number:'1.6-6' }}</p>
+              </div>
+              <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl">
+                <label class="block text-sm font-medium text-gray-500 mb-2">Longitude</label>
+                <p class="text-3xl font-bold text-purple-700">{{ charity.longitude | number:'1.6-6' }}</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 pt-4">
+              <a routerLink="/charity-admin/home" 
+                 class="flex-1 btn btn-secondary">
+                Edit Charity
+              </a>
+              <a routerLink="/charity-admin/dashboard" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl transition-all duration-300 flex items-center gap-2">
+                View Dashboard
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,91 @@
+<!-- <div class="dashboard-container"> -->
+  <!-- Loading Spinner -->
+  <!-- <div *ngIf="loading()">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+  </div> -->
+
+  <!-- Error Message -->
+  <!-- <div *ngIf="error()">
+    <div class="error-message">
+      <p>{{ error() }}</p>
+      <button (click)="loadData()">Retry</button>
+    </div>
+  </div> -->
+
+  <!-- Main Content -->
+  <!-- <div *ngIf="!loading() && !error()">
+    <div class="grid stats-grid"> -->
+      <!-- Stats Cards -->
+      <!-- <div class="stat-card donation-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-content">
+          <h3>Total Donations</h3>
+          <p class="stat-value">${{ totalDonations() | number:'1.0-0' }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card request-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-content">
+          <h3>Total Requests</h3>
+          <p class="stat-value">{{ totalRequests() }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card volunteer-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-content">
+          <h3>Total Volunteers</h3>
+          <p class="stat-value">{{ totalVolunteers() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid content-grid"> -->
+      <!-- Chart -->
+      <!-- <div class="chart-card">
+        <h3>Requests vs Volunteers</h3>
+        <canvas #chartCanvas width="400" height="200"></canvas>
+      </div> -->
+
+      <!-- Recent Requests Table -->
+      <!-- <div class="table-card">
+        <h3>Recent Requests</h3>
+        <div *ngIf="recentRequests().length > 0">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Food Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let req of recentRequests(); trackBy: trackById">
+                <td>{{ req.name }}</td>
+                <td>{{ req.foodType }}</td>
+                <td>
+                  <span class="status" [class.pending]="req.status === 'pending'" [class.approved]="req.status === 'approved'" [class.rejected]="req.status === 'rejected'">
+                    {{ req.status | titlecase }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p *ngIf="recentRequests().length === 0">No recent requests</p>
+      </div>
+    </div> -->
+
+    <!-- Action Buttons -->
+    <!-- <div class="action-buttons">
+      <a routerLink="/charity-admin/add-charity" class="btn btn-primary">Add Charity</a>
+      <a routerLink="/charity-admin/requests" class="btn btn-secondary">View All Requests</a>
+      <a routerLink="/profile" class="btn btn-outline">Profile</a>
+    </div>
+  </div>
+</div> -->
+

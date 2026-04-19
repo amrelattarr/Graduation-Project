@@ -1,0 +1,131 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+
+  <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow p-10 md:p-16">
+
+    <!-- HEADER -->
+    <div class="mb-10">
+      <h2 class="text-3xl font-light">
+        {{ isEditMode ? 'Edit Charity Information' : 'Register Your Charity Organization' }}
+      </h2>
+    </div>
+
+    <!-- STATUS -->
+    <div class="mb-8 space-y-3">
+
+      @if (isLoading) {
+        <div class="status-badge loading">
+          <div class="spinner small"></div>
+          Loading status...
+        </div>
+      } @else {
+
+        @if (isApproved) {
+          <div class="status-badge approved">✅ Charity Approved</div>
+
+        } @else if (isPending) {
+          <div class="status-badge pending">⏳ Charity Pending Review</div>
+
+        } @else if (isRejected) {
+          <div class="status-badge rejected">❌ Charity Rejected</div>
+
+        } @else if (hasNoCharity) {
+          <div class="status-badge no-charity">No charity registered yet</div>
+        }
+
+      }
+
+      @if (errorMessage) {
+        <p class="error-message">{{ errorMessage }}</p>
+      }
+
+      @if (successMessage) {
+        <p class="success-message">{{ successMessage }}</p>
+      }
+
+    </div>
+
+    <!-- FORM -->
+    @if (!isApproved) {
+      <form [formGroup]="charityForm"
+            (ngSubmit)="onSubmit()"
+            class="space-y-6">
+
+        <div class="field-group">
+          <input type="text" formControlName="organizationName" class="field-input peer" placeholder=" " />
+          <label class="field-label">Organization Name *</label>
+        </div>
+
+        <div class="field-group">
+          <input type="text" formControlName="licenseNumber" class="field-input peer" placeholder=" " />
+          <label class="field-label">License Number *</label>
+        </div>
+
+        <div class="field-group">
+          <input type="text" formControlName="address" class="field-input peer" placeholder=" " />
+          <label class="field-label">Address *</label>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <div class="field-group">
+            <input type="text" formControlName="city" class="field-input peer" placeholder=" " />
+            <label class="field-label">City *</label>
+          </div>
+
+          <div class="field-group">
+            <input type="text" formControlName="governorate" class="field-input peer" placeholder=" " />
+            <label class="field-label">Governorate *</label>
+          </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <div class="field-group">
+            <input type="number" formControlName="latitude" class="field-input peer" placeholder=" " />
+            <label class="field-label">Latitude *</label>
+          </div>
+
+          <div class="field-group">
+            <input type="number" formControlName="longitude" class="field-input peer" placeholder=" " />
+            <label class="field-label">Longitude *</label>
+          </div>
+
+        </div>
+
+        <div class="flex justify-between pt-4">
+
+          <button type="button"
+                  (click)="loadCharity()"
+                  class="refresh-btn"
+                  [disabled]="isLoading || isSubmitting">
+            {{ isLoading ? 'Loading...' : 'Refresh Status' }}
+          </button>
+
+          <button type="submit"
+                  class="submit-btn"
+                  [disabled]="charityForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Charity' : 'Create Charity') }}
+          </button>
+
+        </div>
+
+      </form>
+    }
+
+    <!-- APPROVED -->
+    @else {
+      <div class="text-center py-10">
+        <div class="status-badge approved mb-6">
+          ✅ Charity Fully Approved
+        </div>
+
+        <a routerLink="/charity-admin/dashboard"
+           class="submit-btn inline-flex">
+          Go to Dashboard
+        </a>
+      </div>
+    }
+
+  </div>
+</div>
