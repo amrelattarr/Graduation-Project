@@ -11,6 +11,8 @@ import { VolanteerLayout } from './core/layouts/volanteer-layout/volanteer-layou
 import { AdminLayout } from './core/layouts/admin-layout/admin-layout/admin-layout';
 import { roleGuard } from './core/guards/role-guard';
 import { ChangePassword } from './core/auth/change-password/change-password';
+import { Charties } from './features/admin/components/charties/charties';
+import { CharityAdminHome } from './features/charity-admin/components/charity-admin-home/charity-admin-home';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -19,6 +21,7 @@ export const routes: Routes = [
         {path: 'register', component: Register , title: 'Register page'},
     ]},
     {path: '' , component: CharityAdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['CharityAdmin'] } ,children: [
+        {path: 'charity-admin-home', component:CharityAdminHome , title: 'Charity admin home page'},
         
     ]},
     {path: '' , component: DonorLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Donor'] } , children: [
@@ -28,10 +31,13 @@ export const routes: Routes = [
         {path: 'profile', component: Profile , title: 'Profile page'},
     ]},
     {path: '' , component: AdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Admin'] } , children: [
+        {path: 'charties' , component: Charties , title: 'Charties page'},
 
     ]},
     {path: 'change-password', component: ChangePassword ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'Change password page'},
     {path: '**' , redirectTo: 'login', pathMatch: 'full'},
+
+    // {path: 'charties' , component: Charties , title: 'Charties page'},
 
 
 ];

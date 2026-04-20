@@ -45,12 +45,19 @@ export class Login implements OnInit{
         next: (res: any) => {
           localStorage.setItem('accessToken', res.accessToken);
           const decodedToken = this.decodeToken(res.accessToken);
-          const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-          localStorage.setItem('role', role);
+          console.log(decodedToken);
+          const Role = decodedToken['Role'];
+          localStorage.setItem('Role', Role);
           this.successMessage = 'Login successful!';
           this.isLoading = false;
           // Redirect to profile
           this.router.navigate(['/profile']);
+          if (Role === 'Admin') {
+            this.router.navigate(['/charties']);
+          }
+          if (Role === 'CharityAdmin') {
+            this.router.navigate(['/charity-admin-home']);
+          }
         },error: (err: any) => {
           this.errorMessage = 'Invalid email or password. Please try again.';
           console.error(err);

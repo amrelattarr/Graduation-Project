@@ -73,4 +73,13 @@ createVolunteerProfile(data: object): Observable<any> {
   changePassword(data: object): Observable<any> {
     return this.httpClient.post(environment.baseUrl + "Authentication/ChangePassword", data);
   }
+
+  getCharityId(): number | null {
+    const id = localStorage.getItem('charityId');
+    return id ? Number(id) : null;
+  }
+
+  setCharityId(id: number): void {
+    localStorage.setItem('charityId', id.toString());
+  }
 }
