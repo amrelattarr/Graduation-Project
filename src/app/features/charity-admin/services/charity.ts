@@ -122,4 +122,28 @@ export class CharityService {
       statusCode: error.status,
     }));
   }
+
+  displayAllpendingRequests(charityId: number): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/7/pending`)
+  }
+
+  approveVolunteerRequest(Id: number): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + `VolunteerMembership/Approve/${Id}`, {})
+  }
+
+  rejectVolunteerRequest(Id: number): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + `VolunteerMembership/reject/${Id}`, {})
+  }
+
+  displayAllApprovedVolunteers(charityId: number): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/7/memberships`)
+  }
+
+  suspendVolunter(Id: number): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + `VolunteerMembership/suspend/${Id}`, {})
+  }
+
+  ActivateVolunter(Id: number): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + `VolunteerMembership/reactivate/${Id}`, {})
+  }
 }

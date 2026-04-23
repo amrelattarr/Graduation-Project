@@ -72,7 +72,10 @@ export class Profile implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/register']);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('Role');
+    localStorage.removeItem('IsCompleted');
+    this.router.navigate(['/login']);
   }
 
 submit(): void {
@@ -91,21 +94,20 @@ submit(): void {
     }
 
     this.authService.createDonorProfile(donorData).subscribe({
-      next: (res) => this.handleSuccess(),
+      next: (res) => {
+        this.router.navigate(['/']);
+      },
       error: (err) => console.error('Donor Profile Error:', err)
     });
 
   } else if (currentRole === 'Volunteer') {
     this.authService.createVolunteerProfile(this.profileForm.value).subscribe({
-      next: (res) => this.handleSuccess(),
+      next: (res) => {
+        this.router.navigate(['/volunteer-home']);
+      },
       error: (err) => console.error('Volunteer Profile Error:', err)
     });
   }
-}
-
-private handleSuccess(): void {
-  this.authService.setProfileCompleted();
-  this.router.navigate(['/']);
 }
 
   // Getters for Template

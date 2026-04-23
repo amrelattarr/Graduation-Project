@@ -1,0 +1,92 @@
+@if (!myMemberships || myMemberships.length === 0) {
+
+  <table class="table-auto w-full border">
+    <thead>
+      <tr class="bg-gray-200">
+        <th>ID</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Governorate</th>
+        <th>Verified</th>
+        <th>Status</th>
+        <th>Member Ship</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      @for (charity of chartiesList; track charity.charityId) {
+        <tr class="text-center border-t">
+          <td>{{ charity.charityId }}</td>
+          <td>{{ charity.organizationName }}</td>
+          <td>{{ charity.city || 'N/A' }}</td>
+          <td>{{ charity.governorate || 'N/A' }}</td>
+          <td>{{ charity.isVerified ? '✔' : '✖' }}</td>
+          <td>{{ charity.isActivated ? 'Active' : 'Inactive' }}</td>
+          <td> 
+            <button
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              (click)="applyVolunteerByCharityId(charity.charityId)">
+              Apply
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+}
+
+@if (myMemberships && myMemberships.length > 0) {
+
+  <div class="bg-white rounded-2xl shadow-md p-4">
+
+    <h2 class="text-xl font-semibold text-gray-700 mb-4">
+      My Memberships
+    </h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
+
+        <thead class="bg-gray-100 text-gray-600 text-sm uppercase">
+          <tr>
+            <th class="p-3 border">ID</th>
+            <th class="p-3 border">Charity Name</th>
+            <th class="p-3 border">Status</th>
+            <th class="p-3 border">Reason</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (membership of myMemberships; track membership.id) {
+            <tr class="text-center hover:bg-gray-50">
+              <td class="p-3 border">{{ membership.id }}</td>
+              <td class="p-3 border">{{ membership.charityName }}</td>
+              <td class="p-3 border">
+                <span
+                  class="px-2 py-1 rounded-full text-xs font-medium"
+                  [ngClass]="{
+                    'bg-green-100 text-green-600': membership.status === 'Approved',
+                    'bg-red-100 text-red-600': membership.status === 'Suspended'
+                  }"
+                >
+                  {{ membership.status }}
+                </span>
+              </td>
+              <td class="p-3 border">
+                {{
+                  membership.rejectReason
+                    ? membership.rejectReason
+                    : membership.suspendReason
+                    ? membership.suspendReason
+                    : '—'
+                }}
+              </td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+}

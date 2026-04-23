@@ -41,7 +41,7 @@ createVolunteerProfile(data: object): Observable<any> {
   localStorage.setItem('profileCompleted', String(profileCompleted));
 }
   getUserRole(): string | null {
-    return localStorage.getItem('role');
+    return localStorage.getItem('Role');
   }
 
   isProfileCompleted(): boolean {
@@ -62,7 +62,8 @@ createVolunteerProfile(data: object): Observable<any> {
 
   logOut(): void {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('role'); // if you stored it
+    localStorage.removeItem('Role');
+    localStorage.removeItem('IsCompleted');
     this.router.navigate(['/login']);
   }
   

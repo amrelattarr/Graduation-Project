@@ -13,6 +13,9 @@ import { roleGuard } from './core/guards/role-guard';
 import { ChangePassword } from './core/auth/change-password/change-password';
 import { Charties } from './features/admin/components/charties/charties';
 import { CharityAdminHome } from './features/charity-admin/components/charity-admin-home/charity-admin-home';
+import { VolunteerHome } from './features/volanteer/components/volunteer-home/volunteer-home';
+import { MyVolunteers } from './features/charity-admin/components/my-volunteers/my-volunteers';
+import { MyProfile } from './shared/components/my-profile/my-profile';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -22,22 +25,25 @@ export const routes: Routes = [
     ]},
     {path: '' , component: CharityAdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['CharityAdmin'] } ,children: [
         {path: 'charity-admin-home', component:CharityAdminHome , title: 'Charity admin home page'},
+        {path: 'my-volunteers' , component: MyVolunteers , title: 'My volunteers page'},
         
     ]},
     {path: '' , component: DonorLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Donor'] } , children: [
-        {path: 'profile', component: Profile , title: 'Profile page'},
     ]},
     {path: '' , component: VolanteerLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Volunteer'] } , children: [
-        {path: 'profile', component: Profile , title: 'Profile page'},
+        {path: 'volunteer-home', component: VolunteerHome , title: 'Volunteer home page'},
     ]},
     {path: '' , component: AdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Admin'] } , children: [
         {path: 'charties' , component: Charties , title: 'Charties page'},
 
     ]},
     {path: 'change-password', component: ChangePassword ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'Change password page'},
+    {path: 'my-profile', component: MyProfile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'my Profile page'},
+    {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'complete Profile page'},
     {path: '**' , redirectTo: 'login', pathMatch: 'full'},
-
-    // {path: 'charties' , component: Charties , title: 'Charties page'},
+    
+    
+    // {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'Profile page'},
 
 
 ];

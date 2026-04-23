@@ -70,3 +70,11 @@ export interface CreateCharityRequest {
     governorate: string;
 
   }
+
+  export interface MyVoulunteers {
+    id: number;
+    volunteerId: string;
+    volunteerName: string;
+    address: string;
+    status: string;
+  }

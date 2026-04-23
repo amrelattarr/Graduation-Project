@@ -45,18 +45,29 @@ export class Login implements OnInit{
         next: (res: any) => {
           localStorage.setItem('accessToken', res.accessToken);
           const decodedToken = this.decodeToken(res.accessToken);
-          console.log(decodedToken);
           const Role = decodedToken['Role'];
+          const IsCompleted = decodedToken['IsCompleted'];
+          localStorage.setItem('IsCompleted', IsCompleted);
           localStorage.setItem('Role', Role);
           this.successMessage = 'Login successful!';
           this.isLoading = false;
-          // Redirect to profile
-          this.router.navigate(['/profile']);
+
           if (Role === 'Admin') {
             this.router.navigate(['/charties']);
           }
-          if (Role === 'CharityAdmin') {
+          else if (Role === 'CharityAdmin' && IsCompleted === 'True') {
+            this.router.navigate(['/my-volunteers']);
+          } 
+          else if (Role === 'CharityAdmin' && IsCompleted === 'False') {
             this.router.navigate(['/charity-admin-home']);
+          }
+          else if (Role === 'Volunteer' && IsCompleted === 'True') {
+            this.router.navigate(['/volunteer-home']);
+          }else if(Role === 'Volunteer' && IsCompleted === 'False') {
+            this.router.navigate(['/profile']);
+          }
+          else if (Role === 'Donor' && IsCompleted === 'False') {
+            this.router.navigate(['/profile']);
           }
         },error: (err: any) => {
           this.errorMessage = 'Invalid email or password. Please try again.';
