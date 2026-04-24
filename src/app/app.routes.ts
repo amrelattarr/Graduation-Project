@@ -16,6 +16,12 @@ import { CharityAdminHome } from './features/charity-admin/components/charity-ad
 import { VolunteerHome } from './features/volanteer/components/volunteer-home/volunteer-home';
 import { MyVolunteers } from './features/charity-admin/components/my-volunteers/my-volunteers';
 import { MyProfile } from './shared/components/my-profile/my-profile';
+import { Dashboard } from './shared/components/dashboard/dashboard';
+import { DonorHome } from './features/donor/components/donor-home/donor-home';
+import { CreateDonation } from './features/donor/components/create-donation/create-donation';
+import { MyDonations } from './features/donor/components/my-donations/my-donations';
+import { DonationDetails } from './features/donor/components/donation-details/donation-details';
+import { EditDonation } from './features/donor/components/edit-donation/edit-donation';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -28,7 +34,13 @@ export const routes: Routes = [
         {path: 'my-volunteers' , component: MyVolunteers , title: 'My volunteers page'},
         
     ]},
-    {path: '' , component: DonorLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Donor'] } , children: [
+    {path: 'donor' , component: DonorLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Donor'] } , children: [
+        { path: 'home', component: DonorHome, title: 'Donor Home' },
+        {path: 'create-donation',component: CreateDonation,title: 'Create Donation',},
+        { path: 'my-donations', component: MyDonations, title: 'My Donations' },
+        {path: 'donation-details/:id',component: DonationDetails,title: 'Donation Details',},
+        { path: 'edit-donation/:id', component: EditDonation, title: 'Edit Donation' },
+        { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]},
     {path: '' , component: VolanteerLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Volunteer'] } , children: [
         {path: 'volunteer-home', component: VolunteerHome , title: 'Volunteer home page'},
@@ -40,6 +52,7 @@ export const routes: Routes = [
     {path: 'change-password', component: ChangePassword ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'Change password page'},
     {path: 'my-profile', component: MyProfile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'my Profile page'},
     {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'complete Profile page'},
+    {path: 'dashboard', component: Dashboard ,canActivate:[authGuard, roleGuard], data: { roles: ['Admin','CharityAdmin'] } , title: 'Dashboard page'},
     {path: '**' , redirectTo: 'login', pathMatch: 'full'},
     
     

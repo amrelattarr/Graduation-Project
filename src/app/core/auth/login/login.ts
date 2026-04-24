@@ -53,7 +53,7 @@ export class Login implements OnInit{
           this.isLoading = false;
 
           if (Role === 'Admin') {
-            this.router.navigate(['/charties']);
+            this.router.navigate(['/dashboard']);
           }
           else if (Role === 'CharityAdmin' && IsCompleted === 'True') {
             this.router.navigate(['/my-volunteers']);
@@ -66,7 +66,9 @@ export class Login implements OnInit{
           }else if(Role === 'Volunteer' && IsCompleted === 'False') {
             this.router.navigate(['/profile']);
           }
-          else if (Role === 'Donor' && IsCompleted === 'False') {
+          else if (Role === 'Donor' && IsCompleted === 'True') {
+            this.router.navigate(['/donor/home']);
+          } else if (Role === 'Donor' && IsCompleted === 'False') {
             this.router.navigate(['/profile']);
           }
         },error: (err: any) => {

@@ -1,0 +1,92 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+
+    <div class="mb-8 flex items-start justify-between">
+
+        <!-- Left Text -->
+        <div>
+          <h2 class="text-4xl font-extrabold text-gray-800 tracking-tight">
+            Dashboard Overview
+          </h2>
+          <p class="text-gray-500 mt-1">
+            Real-time system analytics and performance metrics
+          </p>
+        </div>
+      
+        <!-- Right Button -->
+        <button
+          routerLink="/charties"
+          class="bg-[#C5A059] text-white px-5 py-2.5 rounded-xl shadow-md hover:bg-[#a8843f] hover:shadow-lg transition duration-200 text-sm font-semibold"
+        >
+          All Charities
+        </button>
+      
+      </div>
+  
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+  
+      <!-- Pending -->
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-orange-400">
+        <p class="text-gray-500 text-sm">Pending Requests</p>
+        <h3 class="text-3xl font-bold text-orange-500 mt-2">
+          {{ dashboardData?.pendingRequests }}
+        </h3>
+      </div>
+  
+      <!-- Donations -->
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-green-500">
+        <p class="text-gray-500 text-sm">Total Donations</p>
+        <h3 class="text-3xl font-bold text-green-600 mt-2">
+          {{ dashboardData?.totalDonations }}
+        </h3>
+      </div>
+  
+      <!-- Food Weight -->
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-blue-500">
+        <p class="text-gray-500 text-sm">Food Weight</p>
+        <h3 class="text-3xl font-bold text-blue-600 mt-2">
+          {{ dashboardData?.totalFoodWeight }} kg
+        </h3>
+      </div>
+  
+      <!-- Volunteers -->
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-purple-500">
+        <p class="text-gray-500 text-sm">Volunteers</p>
+        <h3 class="text-3xl font-bold text-purple-600 mt-2">
+          {{ dashboardData?.totalVolunteers }}
+        </h3>
+      </div>
+  
+    </div>
+  
+    <!-- Chart Section -->
+    <div class="mt-10 bg-white rounded-2xl shadow-lg p-8">
+  
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-2xl font-semibold text-gray-700">
+          Monthly Analysis
+        </h3>
+  
+        <span class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full">
+          Live Data
+        </span>
+      </div>
+  
+      @if ((dashboardData?.monthlyAnalysis?.length ?? 0) > 0) {
+  
+        <div class="h-72 flex items-center justify-center text-gray-400">
+          Chart will go here (Chart.js / ApexCharts)
+        </div>
+  
+      } @else {
+  
+        <div class="h-72 flex flex-col items-center justify-center text-gray-400">
+          <div class="text-sm">No analytics data available</div>
+          <div class="text-xs text-gray-300 mt-1">Try refreshing the dashboard</div>
+        </div>
+  
+      }
+  
+    </div>
+  
+  </div>
