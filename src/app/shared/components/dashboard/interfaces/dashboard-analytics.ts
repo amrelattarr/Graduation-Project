@@ -1,7 +1,15 @@
+export interface MonthlyStat {
+  label: string;
+  value: number;
+}
+
+
+
 export interface DashboardAnalytics {
-    monthlyAnalysis: any[]; 
-    pendingRequests: number;
-    totalDonations: number;
-    totalFoodWeight: number;
-    totalVolunteers: number;
+  donationsPerMonth: MonthlyStat[];
+  foodWeightPerMonth: MonthlyStat[];
+  pendingRequests: number;
+  totalDonations: number;
+  totalFoodWeight: number;
+  totalVolunteers: number;
   }
