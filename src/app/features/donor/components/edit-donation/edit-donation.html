@@ -1,0 +1,220 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+
+  <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-20 border border-[#F0EBE3]">
+
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Donor • Edit Donation
+        </span>
+      </div>
+
+      <div class="text-xs text-gray-400 mb-5 flex gap-2">
+        <a routerLink="/donor/home" class="hover:text-[#C5A059]">Home</a>
+        <span>/</span>
+        <a routerLink="/donor/my-donations" class="hover:text-[#C5A059]">Donations</a>
+        <span>/</span>
+        <span>Edit</span>
+      </div>
+
+      <h1 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-4">
+        Edit Donation #DON-{{ donationId }}
+      </h1>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed max-w-md">
+        Update donation details, timing, and location before the donation lifecycle is completed.
+      </p>
+    </div>
+
+    @if(isLoading) {
+      <div class="mb-8 bg-[#F8F7F4] text-gray-500 px-5 py-4 rounded-2xl text-sm">
+        Loading donation details...
+      </div>
+    }
+
+    @if(errorMessage) {
+      <div class="mb-8 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if(successMessage) {
+      <div class="mb-8 bg-green-50 text-green-600 px-5 py-4 rounded-2xl text-sm">
+        {{ successMessage }}
+      </div>
+    }
+
+    <form [formGroup]="donationForm" (ngSubmit)="submit()" class="space-y-10">
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Food Type
+        </label>
+
+        <input
+          formControlName="foodType"
+          type="text"
+          placeholder="Food Type"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid"
+          [class.ring-red-300]="donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid"
+        />
+
+        @if(donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            @if(donationForm.get('foodType')?.errors?.['required']) { Food type is required }
+            @else { Food type must be at least 2 characters }
+          </span>
+        }
+      </div>
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Quantity
+        </label>
+
+        <input
+          formControlName="quantity"
+          type="number"
+          placeholder="Quantity"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid"
+          [class.ring-red-300]="donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid"
+        />
+
+        @if(donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            @if(donationForm.get('quantity')?.errors?.['required']) { Quantity is required }
+            @else { Quantity must be at least 1 }
+          </span>
+        }
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="relative">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+            Prepared Time
+          </label>
+
+          <input
+            formControlName="preparedTime"
+            type="datetime-local"
+            class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
+            [class.ring-1]="donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid"
+            [class.ring-red-300]="donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid"
+          />
+
+          @if(donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid) {
+            <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+              @if(donationForm.get('preparedTime')?.errors?.['required']) { Prepared time is required }
+              @else { Prepared time must be now or in the past }
+            </span>
+          }
+        </div>
+
+        <div class="relative">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+            Expiration Time
+          </label>
+
+          <input
+            formControlName="expirationTime"
+            type="datetime-local"
+            class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
+            [class.ring-1]="donationForm.get('expirationTime')?.touched && donationForm.get('expirationTime')?.invalid"
+            [class.ring-red-300]="donationForm.get('expirationTime')?.touched && donationForm.get('expirationTime')?.invalid"
+          />
+
+          @if(donationForm.get('expirationTime')?.touched && donationForm.get('expirationTime')?.invalid) {
+            <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+              @if(donationForm.get('expirationTime')?.errors?.['required']) { Expiration time is required }
+              @else { Expiration time must be in the future }
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="relative">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+            Latitude
+          </label>
+
+          <input
+            formControlName="latitude"
+            type="number"
+            placeholder="Latitude"
+            class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+            [class.ring-1]="donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid"
+            [class.ring-red-300]="donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid"
+          />
+
+          @if(donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid) {
+            <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+              @if(donationForm.get('latitude')?.errors?.['required']) { Latitude is required }
+              @else { Latitude must be between -90 and 90 }
+            </span>
+          }
+        </div>
+
+        <div class="relative">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+            Longitude
+          </label>
+
+          <input
+            formControlName="longitude"
+            type="number"
+            placeholder="Longitude"
+            class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+            [class.ring-1]="donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid"
+            [class.ring-red-300]="donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid"
+          />
+
+          @if(donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid) {
+            <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+              @if(donationForm.get('longitude')?.errors?.['required']) { Longitude is required }
+              @else { Longitude must be between -180 and 180 }
+            </span>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Notes
+        </label>
+
+        <textarea
+          formControlName="notes"
+          placeholder="Notes"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all min-h-32"
+        ></textarea>
+      </div>
+
+      <div class="flex items-center justify-between pt-10 mt-6 border-t border-[#F8F7F4]">
+        <button
+          type="button"
+          (click)="goBack()"
+          class="text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-[#C5A059] transition-colors cursor-pointer"
+        >
+          Back
+        </button>
+
+        <button
+          type="submit"
+          class="bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center gap-3 active:scale-95 cursor-pointer disabled:opacity-50"
+          [disabled]="isSubmitting || isLoading"
+        >
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

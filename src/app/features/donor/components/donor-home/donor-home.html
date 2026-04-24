@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="mb-10">
+      <div class="text-xs text-gray-400 mb-2 flex gap-2">
+        <span>Home</span>
+        <span>/</span>
+      
+      </div>
+
+      <h1 class="text-4xl font-bold text-[#111]">
+        Welcome Donor
+      </h1>
+
+      <p class="text-gray-500 mt-2">
+        Manage your food donations and track their lifecycle.
+      </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+      <!-- Create Donation -->
+      <div class="bg-white p-7 rounded-3xl shadow-sm border border-white/60">
+        <p class="text-gray-400 text-sm">Create Donation</p>
+
+        <h2 class="text-3xl font-bold mt-4 text-[#111]">
+          New
+        </h2>
+
+        <p class="text-gray-400 text-sm mt-3">
+          Add a new food donation and choose a charity organization.
+        </p>
+
+        <a
+          routerLink="/donor/create-donation"
+          class="inline-flex items-center gap-3 mt-6 bg-[#111] text-white px-6 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+        >
+          <span class="text-xl leading-none">+</span>
+          <span>Start Donation</span>
+        </a>
+      </div>
+
+      <!-- My Donations -->
+      <div class="bg-white p-7 rounded-3xl shadow-sm border border-white/60">
+        <p class="text-gray-400 text-sm">My Donations</p>
+
+        <h2 class="text-3xl font-bold mt-4 text-[#111]">
+          Track
+        </h2>
+
+        <p class="text-gray-400 text-sm mt-3">
+          View your donation list, status, details, and lifecycle.
+        </p>
+
+        <a
+          routerLink="/donor/my-donations"
+          class="inline-flex items-center gap-3 mt-6 bg-white border border-gray-100 text-[#111] px-6 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+        >
+          <span>View List</span>
+        </a>
+      </div>
+
+      <!-- Impact -->
+      <div class="bg-white p-7 rounded-3xl shadow-sm border border-white/60">
+        <p class="text-gray-400 text-sm">Impact</p>
+
+        <h2 class="text-3xl font-bold mt-4 text-[#111]">
+          CO2 Saved
+        </h2>
+
+        <p class="text-green-600 mt-6 text-sm">
+          +12% from last batch
+        </p>
+
+        <div class="w-full h-2 bg-gray-100 rounded-full mt-4 overflow-hidden">
+          <div class="h-2 bg-black rounded-full w-2/3"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
