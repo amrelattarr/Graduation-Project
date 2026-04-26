@@ -1,0 +1,78 @@
+<div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+    <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-800">Charities List</h2>
+    </div>
+  
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+          <tr>
+            <th class="px-6 py-3">ID</th>
+            <th class="px-6 py-3">Organization</th>
+            <th class="px-6 py-3">City</th>
+            <th class="px-6 py-3">Governorate</th>
+            <th class="px-6 py-3 text-center">Status</th>
+            <th class="px-6 py-3 text-center">Activity</th>
+          </tr>
+        </thead>
+  
+        <tbody class="divide-y divide-gray-100">
+          @for (charity of chartiesList; track charity.charityId) {
+            <tr class="hover:bg-gray-50 transition duration-200">
+              <td class="px-6 py-4 font-medium text-gray-700">
+                #{{ charity.charityId }}
+              </td>
+  
+              <td class="px-6 py-4 font-semibold text-gray-900">
+                {{ charity.organizationName }}
+              </td>
+  
+              <td class="px-6 py-4 text-gray-600">
+                {{ charity.city }}
+              </td>
+  
+              <td class="px-6 py-4 text-gray-600">
+                {{ charity.governorate }}
+              </td>
+  
+              <td class="px-6 py-4 text-center">
+  
+                @if (charity.isVerified) {
+                  <span class="px-3 py-1 text-xs rounded-full font-medium bg-green-100 text-green-600">
+                    Verified
+                  </span>
+                } @else {
+                  <div class="flex flex-col items-center gap-2">
+              
+                    <button
+                      (click)="verifyCharityById(charity.charityId)"
+                      class="px-3 py-1 text-xs rounded-lg bg-[#C5A059] text-white hover:opacity-90 transition"
+                    >
+                      Verify Charity
+                    </button>
+                  </div>
+                }
+              
+              </td>
+
+              <td>
+                <button
+                (click)="toggleCharityStatus(charity)"
+                class="px-4 py-1 text-xs rounded-lg text-white transition"
+                [ngClass]="
+                  charity.isActivated
+                    ? 'bg-red-500 hover:bg-red-600'
+                    : 'bg-green-500 hover:bg-green-600'
+                "
+              >
+                {{ charity.isActivated? 'Deactivate' : 'Activate' }}
+              </button>
+              </td>
+
+
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>

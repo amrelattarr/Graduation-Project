@@ -1,0 +1,123 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+
+  <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-14 border border-[#F0EBE3]">
+
+    <!-- Header -->
+    <div class="mb-10">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Welcome Back
+        </span>
+      </div>
+
+      <h2 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-3">
+        Login
+      </h2>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed">
+        Access your NetFoodia account to manage donations, memberships, and pickups.
+      </p>
+    </div>
+
+    @if(errorMessage) {
+      <div class="mb-6 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if(successMessage) {
+      <div class="mb-6 bg-green-50 text-green-600 px-5 py-4 rounded-2xl text-sm">
+        {{ successMessage }}
+      </div>
+    }
+
+    <!-- Form -->
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="submit()"
+      class="space-y-8"
+    >
+
+      <!-- Email -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+          [class.ring-red-300]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+        />
+
+        @if(loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            @if(loginForm.get('email')?.errors?.['required']) { Email is required }
+            @else { Please enter a valid email }
+          </span>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Password
+        </label>
+
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+          [class.ring-red-300]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        />
+
+        @if(loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            @if(loginForm.get('password')?.errors?.['required']) { Password is required }
+            @else { Password format is invalid }
+          </span>
+        }
+      </div>
+
+      <!-- Button -->
+      <div class="pt-6 border-t border-[#F8F7F4]">
+        <button
+          type="submit"
+          class="w-full bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 cursor-pointer disabled:opacity-50"
+          [disabled]="isLoading"
+        >
+          {{ isLoading ? 'Logging in...' : 'Login' }}
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="text-center space-y-3 mt-8">
+      <a
+        routerLink="/forget-password"
+        class="text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-[#C5A059] transition-colors"
+      >
+        Forgot Password?
+      </a>
+
+      <p class="text-sm text-gray-400">
+        Don't have an account?
+        <a routerLink="/register" class="text-[#C5A059] font-semibold hover:underline">
+          Register
+        </a>
+      </p>
+    </div>
+
+  </div>
+</div>

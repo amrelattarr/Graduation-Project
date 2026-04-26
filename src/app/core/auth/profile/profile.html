@@ -1,0 +1,137 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+  
+  <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-20 border border-[#F0EBE3]">
+    
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">Onboarding • Step 02</span>
+      </div>
+      <h2 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-4">Complete Profile</h2>
+      <p class="text-gray-400 text-sm font-light leading-relaxed max-w-md">
+        Provide your operational coordinates and details to begin reducing food waste with surgical precision.
+      </p>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" class="space-y-10">
+      
+      @if(role?.toLowerCase() === 'donor') {
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col gap-3 relative">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Entity Status</label>
+            <select
+              formControlName="isBusiness"
+              class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] appearance-none cursor-pointer text-gray-700 font-medium transition-all"
+              [class.ring-1]="isBusiness?.touched && isBusiness?.invalid" [class.ring-red-300]="isBusiness?.touched && isBusiness?.invalid"
+            >
+              <option [ngValue]="null" disabled>Select Status</option>
+              <option [ngValue]="true">Business / Restaurant</option>
+              <option [ngValue]="false">Individual Donor</option>
+            </select>
+            @if (isBusiness?.touched && isBusiness?.invalid) {
+              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">Please select an entity type</span>
+            }
+          </div>
+
+          @if(isBusiness?.value === true) {
+            <div class="flex flex-col gap-3 relative animate-fade-in">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Business Sector</label>
+              <input
+                type="text"
+                formControlName="businessType"
+                placeholder="e.g. Fine Dining, Luxury Hotel"
+                class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300"
+                [class.ring-1]="businessType?.touched && businessType?.invalid" [class.ring-red-300]="businessType?.touched && businessType?.invalid"
+              />
+              @if (businessType?.touched && businessType?.invalid) {
+                <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">Industry sector is required</span>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <div formGroupName="location" class="space-y-3">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Geographic Verification</label>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="relative">
+            <input type="number" formControlName="latitude" placeholder="Latitude" step="any"
+              class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
+              [class.ring-1]="latitude?.touched && latitude?.invalid" [class.ring-red-300]="latitude?.touched && latitude?.invalid" />
+            
+            @if (latitude?.touched && latitude?.invalid) {
+              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">
+                @if(latitude?.errors?.['required']){ Latitude Required } 
+                @else { Value must be -90 to 90 }
+              </span>
+            }
+          </div>
+          
+          <div class="relative">
+            <input type="number" formControlName="longitude" placeholder="Longitude" step="any"
+              class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
+              [class.ring-1]="longitude?.touched && longitude?.invalid" [class.ring-red-300]="longitude?.touched && longitude?.invalid" />
+            
+            @if (longitude?.touched && longitude?.invalid) {
+              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">
+                @if(longitude?.errors?.['required']){ Longitude Required } 
+                @else { Value must be -180 to 180 }
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 pt-2 relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Operational Address</label>
+        <input
+          type="text"
+          formControlName="address"
+          placeholder="Enter full physical location"
+          class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="address?.touched && address?.invalid" [class.ring-red-300]="address?.touched && address?.invalid"
+        />
+        @if (address?.touched && address?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">Valid address required for logistics</span>
+        }
+      </div>
+
+      @if(role?.toLowerCase() === 'volunteer') {
+        <div class="flex flex-col gap-3 relative">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Logistics Vehicle</label>
+          <input
+            type="text"
+            formControlName="vehicleType"
+            placeholder="e.g. Electric Courier, Private Van"
+            class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+            [class.ring-1]="vehicleType?.touched && vehicleType?.invalid" [class.ring-red-300]="vehicleType?.touched && vehicleType?.invalid"
+          />
+          @if (vehicleType?.touched && vehicleType?.invalid) {
+            <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">Vehicle specification required</span>
+          }
+        </div>
+      }
+
+      <div class="flex items-center justify-between pt-10 mt-6 border-t border-[#F8F7F4]">
+      <button 
+  type="button" 
+  (click)="goBack()" 
+  class="text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-[#C5A059] transition-colors cursor-pointer">
+  Back
+</button>
+        
+      <button
+  type="submit"
+  class="bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center gap-3 active:scale-95 cursor-pointer"
+>
+  Complete Selection
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+  </svg>
+</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,120 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+
+  <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-14 border border-[#F0EBE3]">
+
+    <div class="mb-10">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Join NetFoodia
+        </span>
+      </div>
+
+      <h2 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-3">
+        Create Account
+      </h2>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed">
+        Register as a donor, volunteer, or charity admin.
+      </p>
+    </div>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="submit()"
+      class="space-y-8"
+    >
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Full Name
+        </label>
+        <input
+          type="text"
+          formControlName="fullName"
+          placeholder="Enter your full name"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+        />
+      </div>
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Phone Number
+        </label>
+        <input
+          type="text"
+          formControlName="phone"
+          placeholder="Enter your phone number"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+        />
+      </div>
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Email Address
+        </label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+        />
+      </div>
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Password
+        </label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+        />
+      </div>
+
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Account Role
+        </label>
+
+        <select
+          formControlName="role"
+          class="w-full mt-3 p-5 pr-12 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none appearance-none cursor-pointer text-gray-700 font-medium transition-all"
+        >
+          <option value="CharityAdmin" class="text-gray-700">CharityAdmin</option>
+          <option value="Volunteer" class="text-gray-700">Volunteer</option>
+          <option value="Donor" class="text-gray-700">Donor</option>
+        </select>
+
+        <div class="pointer-events-none absolute right-4 top-[49px] text-gray-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-[#F8F7F4]">
+        <button
+          type="submit"
+          class="w-full bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 cursor-pointer"
+        >
+          Register
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+    </form>
+
+    <p class="text-center text-sm text-gray-400 mt-8">
+      Already have an account?
+      <a routerLink="/login" class="text-[#C5A059] font-semibold hover:underline">
+        Login
+      </a>
+    </p>
+
+  </div>
+</div>

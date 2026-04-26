@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-8">
+      <div>
+        <div class="text-xs text-gray-400 mb-2 flex gap-2 flex-wrap">
+          <a routerLink="/donor/home" class="hover:text-[#C5A059] transition">
+            Home
+          </a>
+          <span>/</span>
+          <span>Donations</span>
+        </div>
+
+        <h1 class="text-4xl font-bold text-[#111]">
+          My Donations
+        </h1>
+      </div>
+
+      <a
+        routerLink="/donor/create-donation"
+        class="bg-black text-white px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition flex items-center gap-3 w-fit"
+      >
+        <span class="text-xl leading-none">+</span>
+        <span class="font-medium">New Donation</span>
+      </a>
+    </div>
+
+    @if(isLoading) {
+      <div class="bg-white rounded-3xl p-6 text-gray-500 shadow-sm">
+        Loading donations...
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if(!isLoading && donations.length === 0) {
+      <div class="bg-white rounded-3xl p-10 shadow-sm text-center">
+        <h3 class="text-2xl font-semibold text-[#111]">No Donations Yet</h3>
+        <p class="text-gray-400 mt-2">
+          Start your first donation and help reduce food waste.
+        </p>
+
+        <a
+          routerLink="/donor/create-donation"
+          class="inline-flex mt-6 bg-black text-white px-6 py-3 rounded-2xl shadow-sm hover:shadow-md transition"
+        >
+          Create Donation
+        </a>
+      </div>
+    }
+
+    <!-- Donations List -->
+    <div class="grid grid-cols-1 gap-5">
+      @for(donation of donations; track donation.donationId) {
+
+        <div class="bg-white rounded-3xl p-5 shadow-sm border border-white/60 flex flex-col lg:flex-row gap-6">
+
+          <!-- Image -->
+          <div class="w-full lg:w-48 h-48 lg:h-auto bg-[#F8F7F4] rounded-2xl overflow-hidden flex-shrink-0">
+            @if(donation.pictureUrl) {
+              <img
+                [src]="donation.pictureUrl"
+                alt="Donation Image"
+                class="w-full h-full object-cover"
+              />
+            } @else {
+              <div class="w-full h-full flex items-center justify-center text-gray-300 text-sm">
+                No Image
+              </div>
+            }
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1 flex flex-col justify-between min-w-0">
+
+            <div>
+              <div class="flex flex-col md:flex-row md:items-center gap-3">
+
+                <h2 class="text-2xl font-bold text-[#111] break-words">
+                  Donation #DON-{{ donation.donationId }}
+                </h2>
+
+                <!-- Dynamic Status Badge -->
+                <span
+                  class="w-fit px-3 py-1 rounded-full text-xs font-medium"
+                  [ngClass]="{
+                    'bg-yellow-50 text-yellow-700': donation.status?.toLowerCase() === 'pending',
+                    'bg-green-50 text-green-700': donation.status?.toLowerCase() === 'accepted',
+                    'bg-red-50 text-red-600': donation.status?.toLowerCase() === 'rejected',
+                    'bg-gray-100 text-gray-600': donation.status?.toLowerCase() === 'cancelled',
+                    'bg-blue-50 text-blue-600': donation.status?.toLowerCase() === 'pickedup' || donation.status?.toLowerCase() === 'delivered'
+                  }"
+                >
+                  {{ donation.status }}
+                </span>
+
+              </div>
+
+              <p class="text-gray-500 mt-3 break-words">
+                {{ donation.foodType }} • {{ donation.quantity }} kg
+              </p>
+
+              <p class="text-gray-400 text-sm mt-2 break-words">
+                Charity: {{ donation.charityName || 'Not assigned' }}
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-wrap gap-3 mt-6">
+
+              <a
+                [routerLink]="['/donor/donation-details', donation.donationId]"
+                class="bg-white border border-gray-100 text-[#111] px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+              >
+                Details
+              </a>
+
+              @if(
+                donation.status?.toLowerCase() !== 'cancelled' &&
+                donation.status?.toLowerCase() !== 'accepted' &&
+                donation.status?.toLowerCase() !== 'rejected'
+              ) {
+                <a
+                  [routerLink]="['/donor/edit-donation', donation.donationId]"
+                  class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                >
+                  Edit
+                </a>
+              }
+
+              @if(donation.status?.toLowerCase() === 'pending') {
+                <button
+                  type="button"
+                  (click)="cancelDonation(donation.donationId)"
+                  class="bg-[#F8F7F4] border border-gray-100 text-red-500 px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                >
+                  Cancel
+                </button>
+              }
+
+            </div>
+          </div>
+
+        </div>
+
+      }
+    </div>
+
+  </div>
+</div>

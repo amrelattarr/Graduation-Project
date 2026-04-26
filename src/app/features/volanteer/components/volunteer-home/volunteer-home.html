@@ -1,0 +1,190 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+      <div>
+        <div class="text-xs text-gray-400 mb-2 flex gap-2">
+          <a routerLink="/volunteer-home" class="hover:text-[#C5A059]">Home</a>
+          <span>/</span>
+          <span>Memberships</span>
+        </div>
+
+        <h1 class="text-4xl font-bold text-[#111]">
+          Volunteer Memberships
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+          Apply to charities and manage your membership status.
+        </p>
+      </div>
+
+      <a
+        routerLink="/volunteer-pickup-tasks"
+        class="inline-flex items-center gap-3 bg-[#111] text-white px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium w-fit"
+      >
+        Pickup Tasks
+      </a>
+    </div>
+
+    <!-- Available Charities -->
+    @if (!myMemberships || myMemberships.length === 0) {
+      <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6">
+
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-[#111]">
+            Available Charities
+          </h2>
+
+          <p class="text-gray-400 text-sm mt-1">
+            Choose a charity and apply for volunteer membership.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+              <tr>
+                <th class="px-6 py-4 rounded-l-2xl">ID</th>
+                <th class="px-6 py-4">Name</th>
+                <th class="px-6 py-4">City</th>
+                <th class="px-6 py-4">Governorate</th>
+                <th class="px-6 py-4 text-center">Verified</th>
+                <th class="px-6 py-4 text-center">Status</th>
+                <th class="px-6 py-4 text-center rounded-r-2xl">Membership</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100">
+              @for (charity of chartiesList; track charity.charityId) {
+                <tr class="hover:bg-[#FAF9F6] transition">
+                  <td class="px-6 py-5 text-gray-600">
+                    #{{ charity.charityId }}
+                  </td>
+
+                  <td class="px-6 py-5 font-semibold text-[#111]">
+                    {{ charity.organizationName }}
+                  </td>
+
+                  <td class="px-6 py-5 text-gray-500">
+                    {{ charity.city || 'N/A' }}
+                  </td>
+
+                  <td class="px-6 py-5 text-gray-500">
+                    {{ charity.governorate || 'N/A' }}
+                  </td>
+
+                  <td class="px-6 py-5 text-center">
+                    @if(charity.isVerified) {
+                      <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-600">
+                        Verified
+                      </span>
+                    } @else {
+                      <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-50 text-red-500">
+                        Not Verified
+                      </span>
+                    }
+                  </td>
+
+                  <td class="px-6 py-5 text-center">
+                    @if(charity.isActivated) {
+                      <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-600">
+                        Active
+                      </span>
+                    } @else {
+                      <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                        Inactive
+                      </span>
+                    }
+                  </td>
+
+                  <td class="px-6 py-5">
+                    <div class="flex justify-center">
+                      <button
+                        type="button"
+                        class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium disabled:opacity-50"
+                        [disabled]="!charity.isVerified || !charity.isActivated"
+                        (click)="applyVolunteerByCharityId(charity.charityId)"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    }
+
+    <!-- My Memberships -->
+    @if (myMemberships && myMemberships.length > 0) {
+      <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6">
+
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-[#111]">
+            My Memberships
+          </h2>
+
+          <p class="text-gray-400 text-sm mt-1">
+            Track your current charity membership status.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+              <tr>
+                <th class="px-6 py-4 rounded-l-2xl">ID</th>
+                <th class="px-6 py-4">Charity Name</th>
+                <th class="px-6 py-4 text-center">Status</th>
+                <th class="px-6 py-4 rounded-r-2xl">Reason</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100">
+              @for (membership of myMemberships; track membership.id) {
+                <tr class="hover:bg-[#FAF9F6] transition">
+                  <td class="px-6 py-5 text-gray-600">
+                    #{{ membership.id }}
+                  </td>
+
+                  <td class="px-6 py-5 font-semibold text-[#111]">
+                    {{ membership.charityName }}
+                  </td>
+
+                  <td class="px-6 py-5 text-center">
+                    <span
+                      class="px-3 py-1 rounded-full text-xs font-medium"
+                      [ngClass]="{
+                        'bg-yellow-50 text-yellow-600': membership.status === 'Pending',
+                        'bg-green-50 text-green-600': membership.status === 'Approved',
+                        'bg-red-50 text-red-500': membership.status === 'Rejected' || membership.status === 'Suspended'
+                      }"
+                    >
+                      {{ membership.status }}
+                    </span>
+                  </td>
+
+                  <td class="px-6 py-5 text-gray-500">
+                    {{
+                      membership.rejectReason
+                        ? membership.rejectReason
+                        : membership.suspendReason
+                        ? membership.suspendReason
+                        : '—'
+                    }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>

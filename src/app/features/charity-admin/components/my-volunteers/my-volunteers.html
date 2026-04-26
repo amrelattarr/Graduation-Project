@@ -1,0 +1,202 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+      <div>
+        <div class="text-xs text-gray-400 mb-2 flex gap-2">
+          <a routerLink="/charity-admin-home" class="hover:text-[#C5A059]">Home</a>
+          <span>/</span>
+          <span>Volunteers</span>
+        </div>
+
+        <h1 class="text-4xl font-bold text-[#111]">
+          Charity Volunteers
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+          Manage volunteer requests and active charity volunteers.
+        </p>
+      </div>
+
+      <!-- <a
+        routerLink="/charity-donations"
+        class="inline-flex items-center gap-3 bg-[#111] text-white px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium w-fit"
+      >
+        <span>Pending Donations</span>
+      </a> -->
+
+      <div class="flex flex-wrap gap-3">
+  <a
+    routerLink="/charity-donations"
+    class="inline-flex items-center gap-3 bg-[#111] text-white px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium w-fit"
+  >
+    <span>Pending Donations</span>
+  </a>
+
+  <a
+    routerLink="/pickup-tasks"
+    class="inline-flex items-center gap-3 bg-white border border-gray-100 text-[#111] px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium w-fit"
+  >
+    <span>Pickup Tasks</span>
+  </a>
+</div>
+    </div>
+
+    <!-- Pending Volunteers -->
+    <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-[#111]">
+            Pending Volunteers
+          </h2>
+          <p class="text-gray-400 text-sm mt-1">
+            Review new volunteers waiting for approval.
+          </p>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+            <tr>
+              <th class="px-6 py-4 rounded-l-2xl">ID</th>
+              <th class="px-6 py-4">Name</th>
+              <th class="px-6 py-4">Address</th>
+              <th class="px-6 py-4 text-center">Status</th>
+              <th class="px-6 py-4 text-center rounded-r-2xl">Action</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-100">
+            @for (volunteer of PendingList; track volunteer.id) {
+              <tr class="hover:bg-[#FAF9F6] transition">
+                <td class="px-6 py-5 text-gray-600">
+                  #{{ volunteer.id }}
+                </td>
+
+                <td class="px-6 py-5 font-semibold text-[#111]">
+                  {{ volunteer.volunteerName }}
+                </td>
+
+                <td class="px-6 py-5 text-gray-500">
+                  {{ volunteer.address }}
+                </td>
+
+                <td class="px-6 py-5 text-center">
+                  <span
+                    class="px-3 py-1 rounded-full text-xs font-medium"
+                    [ngClass]="{
+                      'bg-yellow-50 text-yellow-600': volunteer.status === 'Pending',
+                      'bg-green-50 text-green-600': volunteer.status === 'Approved',
+                      'bg-red-50 text-red-500': volunteer.status === 'Rejected'
+                    }"
+                  >
+                    {{ volunteer.status }}
+                  </span>
+                </td>
+
+                <td class="px-6 py-5">
+                  <div class="flex flex-wrap gap-3 justify-center">
+                    <button
+                      type="button"
+                      class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                      (click)="approveVolunteerById(volunteer.id)"
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      type="button"
+                      class="bg-white border border-gray-100 text-red-500 px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                      (click)="rejectVolunteerById(volunteer.id)"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Accepted Volunteers -->
+    <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-[#111]">
+          Approved Volunteers
+        </h2>
+        <p class="text-gray-400 text-sm mt-1">
+          Manage currently approved or suspended volunteers.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+            <tr>
+              <th class="px-6 py-4 rounded-l-2xl">ID</th>
+              <th class="px-6 py-4">Name</th>
+              <th class="px-6 py-4">Address</th>
+              <th class="px-6 py-4 text-center">Status</th>
+              <th class="px-6 py-4 text-center rounded-r-2xl">Action</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-100">
+            @for (volunteer of AcceptedList; track volunteer.id) {
+              <tr class="hover:bg-[#FAF9F6] transition">
+                <td class="px-6 py-5 text-gray-600">
+                  #{{ volunteer.id }}
+                </td>
+
+                <td class="px-6 py-5 font-semibold text-[#111]">
+                  {{ volunteer.volunteerName }}
+                </td>
+
+                <td class="px-6 py-5 text-gray-500">
+                  {{ volunteer.address }}
+                </td>
+
+                <td class="px-6 py-5 text-center">
+                  <span
+                    class="px-3 py-1 rounded-full text-xs font-medium"
+                    [ngClass]="{
+                      'bg-green-50 text-green-600': volunteer.status === 'Approved',
+                      'bg-red-50 text-red-500': volunteer.status === 'Suspended'
+                    }"
+                  >
+                    {{ volunteer.status }}
+                  </span>
+                </td>
+
+                <td class="px-6 py-5">
+                  <div class="flex justify-center">
+                    <button
+                      type="button"
+                      class="px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                      [ngClass]="{
+                        'bg-[#111] text-white': volunteer.status === 'Suspended',
+                        'bg-white border border-gray-100 text-red-500': volunteer.status === 'Approved'
+                      }"
+                      (click)="
+                        volunteer.status === 'Suspended'
+                          ? reActivateVolunteerById(volunteer.id)
+                          : suspendVolunteerById(volunteer.id)
+                      "
+                    >
+                      {{ volunteer.status === 'Suspended' ? 'Activate' : 'Suspend' }}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
