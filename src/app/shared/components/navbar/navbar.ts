@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/auth/services/auth-service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,15 +14,21 @@ export class Navbar {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  readonly notificationService = inject(NotificationService);
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('accessToken');
+    return (
+      !!localStorage.getItem('accessToken') ||
+      !!localStorage.getItem('token')
+    );
   }
 
+  isVolunteer(): boolean {
+    return localStorage.getItem('Role') === 'Volunteer';
+  }
 
-  logout() {
+  logout(): void {
     this.authService.logOut();
     this.router.navigate(['/login']);
   }
-
 }

@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="mb-8">
+      <div class="text-xs text-gray-400 mb-2 flex gap-2">
+        <a routerLink="/" class="hover:text-[#C5A059]">Home</a>
+        <span>/</span>
+        <span>Notifications</span>
+      </div>
+
+      <h1 class="text-4xl font-bold text-[#111]">
+        Notifications
+      </h1>
+
+      <p class="text-gray-500 mt-2">
+        See latest pickup task updates and charity notifications.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+      @for(notification of (notificationService.notifications$ | async); track notification.notificationId || notification.id) {
+        <div
+          class="bg-white rounded-3xl p-6 shadow-sm border border-white/60"
+          [class.opacity-60]="notification.isRead"
+        >
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-bold text-[#111]">
+                {{ notification.title }}
+              </h2>
+
+              <p class="text-gray-500 mt-2">
+                {{ notification.message }}
+              </p>
+
+              <p class="text-gray-400 text-xs mt-3">
+                {{ notification.createdAt | date:'medium' }}
+              </p>
+            </div>
+
+            @if(!notification.isRead) {
+              <button
+                type="button"
+                (click)="markAsRead(notification)"
+                class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+              >
+                Mark Read
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

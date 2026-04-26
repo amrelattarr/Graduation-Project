@@ -78,3 +78,48 @@ export interface CreateCharityRequest {
     address: string;
     status: string;
   }
+
+  export interface PendingCharityDonation {
+  donationId: number;
+  pictureUrl?: string;
+  donorName: string;
+  foodType: string;
+  quantity: number;
+  expirationTime: string;
+  urgencyScore: number;
+  createdAt: string;
+}
+
+export interface RejectDonationRequest {
+  reason: string;
+}
+
+export interface AcceptedUnassignedDonation {
+  donationId: number;
+  pictureUrl?: string;
+  donorName?: string;
+  foodType: string;
+  quantity: number;
+  expirationTime: string;
+  urgencyScore: number;
+  createdAt: string;
+}
+
+export interface CreatePickupTaskRequest {
+  slaDueAt: string;
+}
+
+export interface PickupTask {
+  taskId: number;
+  donationId: number;
+  charityId: number;
+  charityName: string;
+  donationTitle: string;
+  assignedVolunteerId?: string;
+  assignedVolunteerName?: string;
+  status: string;
+  slaDueAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  createdAt: string;
+}
