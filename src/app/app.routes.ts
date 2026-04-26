@@ -22,6 +22,11 @@ import { CreateDonation } from './features/donor/components/create-donation/crea
 import { MyDonations } from './features/donor/components/my-donations/my-donations';
 import { DonationDetails } from './features/donor/components/donation-details/donation-details';
 import { EditDonation } from './features/donor/components/edit-donation/edit-donation';
+import { Map } from './shared/components/map/map';
+import { CharityDonations } from './features/charity-admin/components/charity-donations/charity-donations';
+import { PickupTasks } from './features/charity-admin/components/pickup-tasks/pickup-tasks';
+import { VolunteerPickupTasks } from './features/volanteer/components/volunteer-pickup-tasks/volunteer-pickup-tasks';
+import { Notifications } from './features/notifications/notifications';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -32,6 +37,8 @@ export const routes: Routes = [
     {path: '' , component: CharityAdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['CharityAdmin'] } ,children: [
         {path: 'charity-admin-home', component:CharityAdminHome , title: 'Charity admin home page'},
         {path: 'my-volunteers' , component: MyVolunteers , title: 'My volunteers page'},
+        { path: 'charity-donations', component: CharityDonations, title: 'Charity Donations' },
+        { path: 'pickup-tasks', component: PickupTasks, title: 'Pickup Tasks' },
         
     ]},
     {path: 'donor' , component: DonorLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Donor'] } , children: [
@@ -44,6 +51,7 @@ export const routes: Routes = [
     ]},
     {path: '' , component: VolanteerLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Volunteer'] } , children: [
         {path: 'volunteer-home', component: VolunteerHome , title: 'Volunteer home page'},
+        { path: 'volunteer-pickup-tasks', component: VolunteerPickupTasks, title: 'Volunteer Pickup Tasks' },
     ]},
     {path: '' , component: AdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Admin'] } , children: [
         {path: 'charties' , component: Charties , title: 'Charties page'},
@@ -53,10 +61,12 @@ export const routes: Routes = [
     {path: 'my-profile', component: MyProfile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin'] } , title: 'my Profile page'},
     {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'complete Profile page'},
     {path: 'dashboard', component: Dashboard ,canActivate:[authGuard, roleGuard], data: { roles: ['Admin','CharityAdmin'] } , title: 'Dashboard page'},
+    {path: 'map', component: Map ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','Admin' , 'CharityAdmin'] } , title: 'map page'},
+    {path: 'notifications',component: Notifications, canActivate: [authGuard],title: 'Notifications'},
     {path: '**' , redirectTo: 'login', pathMatch: 'full'},
     
     
     // {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'Profile page'},
-
-
+    
+    
 ];

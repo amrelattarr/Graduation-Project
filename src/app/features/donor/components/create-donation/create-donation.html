@@ -150,51 +150,67 @@
           </div>
         </div>
   
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="relative">
-            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
-              Latitude
-            </label>
-  
-            <input
-              formControlName="latitude"
-              type="number"
-              placeholder="Latitude"
-              class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
-              [class.ring-1]="donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid"
-              [class.ring-red-300]="donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid"
-            />
-  
-            @if(donationForm.get('latitude')?.touched && donationForm.get('latitude')?.invalid) {
-              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
-                @if(donationForm.get('latitude')?.errors?.['required']) { Latitude is required }
-                @else { Latitude must be between -90 and 90 }
-              </span>
-            }
-          </div>
-  
-          <div class="relative">
-            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
-              Longitude
-            </label>
-  
-            <input
-              formControlName="longitude"
-              type="number"
-              placeholder="Longitude"
-              class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
-              [class.ring-1]="donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid"
-              [class.ring-red-300]="donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid"
-            />
-  
-            @if(donationForm.get('longitude')?.touched && donationForm.get('longitude')?.invalid) {
-              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
-                @if(donationForm.get('longitude')?.errors?.['required']) { Longitude is required }
-                @else { Longitude must be between -180 and 180 }
-              </span>
-            }
-          </div>
-        </div>
+<!-- LOCATION PICKER -->
+<div class="relative">
+
+  <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+    Location
+  </label>
+
+  <div
+    (click)="openMap()"
+    class="w-full mt-3 p-5 bg-[#F8F7F4] rounded-2xl cursor-pointer flex items-center justify-between hover:bg-[#f1efe9] transition">
+
+    <div class="flex items-center gap-4">
+
+      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm">
+        <i class="fa-solid fa-location-dot text-red-500 text-lg"></i>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-gray-700">
+          {{ donationForm.value.latitude && donationForm.value.longitude
+              ? 'Location Selected'
+              : 'Pick Location on Map' }}
+        </p>
+
+        <p class="text-xs text-gray-400">
+          {{ donationForm.value.latitude && donationForm.value.longitude
+              ? (donationForm.value.latitude + ', ' + donationForm.value.longitude)
+              : 'Tap to open map' }}
+        </p>
+      </div>
+
+    </div>
+
+    <i class="fa-solid fa-chevron-right text-gray-400"></i>
+
+  </div>
+
+</div>
+
+
+@if(isMapOpen) {
+  <div class="fixed top-0 left-0 w-screen h-screen bg-black/60 flex items-center justify-center z-50">
+
+    <div class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl overflow-hidden relative">
+
+      <!-- close button -->
+      <button
+        class="absolute top-3 right-3 z-50 text-gray-600 hover:text-black"
+        (click)="closeMap()">
+        ✕
+      </button>
+
+      <!-- map -->
+      <app-map
+        (locationSelected)="onLocationSelected($event)">
+      </app-map>
+
+    </div>
+
+  </div>
+}
   
         <div class="relative">
           <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">

@@ -1,75 +1,153 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F2EDE6] to-[#e8dccb] px-4">
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
 
-    <div class="w-full max-w-md backdrop-blur-lg bg-white/80 border border-white/40 p-8 rounded-3xl shadow-2xl">
-    
-      <!-- Header -->
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-extrabold text-[#C5A059] tracking-wide">
-          Login
-        </h2>
+  <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-14 border border-[#F0EBE3]">
+
+    <!-- Header -->
+    <div class="mb-10">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Welcome Back
+        </span>
       </div>
-    
-      <!-- Form -->
-      <form 
-        [formGroup]="loginForm" 
-        (ngSubmit)="submit()" 
-        class="flex flex-col gap-6"
-      >
-    
-        <!-- Email -->
-        <div class="relative">
-          <input
-            type="email"
-            formControlName="email"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Email Address
-          </label>
-        </div>
-    
-        <!-- Password -->
-        <div class="relative">
-          <input
-            type="password"
-            formControlName="password"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Password
-          </label>
-        </div>
-    
-        <!-- Button -->
+
+      <h2 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-3">
+        Login
+      </h2>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed">
+        Access your NetFoodia account to manage donations, memberships, and pickups.
+      </p>
+    </div>
+
+    @if(errorMessage) {
+      <div class="mb-6 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if(successMessage) {
+      <div class="mb-6 bg-green-50 text-green-600 px-5 py-4 rounded-2xl text-sm">
+        {{ successMessage }}
+      </div>
+    }
+
+    <!-- Form -->
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="submit()"
+      class="space-y-8"
+    >
+
+      <!-- Email -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+          [class.ring-red-300]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+        />
+
+        @if(loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            @if(loginForm.get('email')?.errors?.['required']) { Email is required }
+            @else { Please enter a valid email }
+          </span>
+        }
+      </div>
+
+<!-- Password -->
+<div class="relative">
+
+  <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+    Password
+  </label>
+
+  <div class="relative mt-3">
+
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      formControlName="password"
+      placeholder="Enter your password"
+      class="w-full p-5 pr-12 bg-[#F8F7F4] border-none rounded-2xl
+             focus:ring-1 focus:ring-[#C5A059] outline-none
+             placeholder:text-gray-300 transition-all"
+      [class.ring-1]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+      [class.ring-red-300]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+    />
+
+    <!-- Eye Toggle -->
+    <button
+      type="button"
+      (click)="togglePasswordVisibility()"
+      class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#C5A059] transition"
+    >
+      <i class="fa-solid"
+         [class.fa-eye]="!showPassword"
+         [class.fa-eye-slash]="showPassword">
+      </i>
+    </button>
+
+  </div>
+
+  <!-- Validation Messages -->
+  @if(loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+
+    <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+
+      @if(loginForm.get('password')?.errors?.['required']) {
+        Password is required
+      }
+
+      @else if(loginForm.get('password')?.errors?.['pattern']) {
+        Use 8+ chars with upper, lower, number & symbol
+      }
+
+    </span>
+
+  }
+
+</div>
+
+      <!-- Button -->
+      <div class="pt-6 border-t border-[#F8F7F4]">
         <button
           type="submit"
-          class="mt-2 bg-[#C5A059] text-white p-3 rounded-xl cursor-pointer font-semibold tracking-wide hover:scale-[1.02] hover:shadow-lg transition-all duration-200"
+          class="w-full bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 cursor-pointer disabled:opacity-50"
+          [disabled]="isLoading"
         >
-          Login
+          {{ isLoading ? 'Logging in...' : 'Login' }}
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
         </button>
-    
-      </form>
-    
-      <!-- Footer -->
-      <div class="text-center space-y-1 mt-6">
-        <a routerLink="/forget-password" class="text-[#C5A059] font-semibold hover:underline block text-sm">
-          Forgot Password?
-        </a>
-        <p class="text-sm text-gray-500">
-          Don't have an account? 
-          <a routerLink="/register" class="text-[#C5A059] font-semibold hover:underline">
-            Register
-          </a>
-        </p>
       </div>
-    
+
+    </form>
+
+    <!-- Footer -->
+    <div class="text-center space-y-3 mt-8">
+      <a
+        routerLink="/forget-password"
+        class="text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-[#C5A059] transition-colors"
+      >
+        Forgot Password?
+      </a>
+
+      <p class="text-sm text-gray-400">
+        Don't have an account?
+        <a routerLink="/register" class="text-[#C5A059] font-semibold hover:underline">
+          Register
+        </a>
+      </p>
     </div>
+
   </div>
+</div>

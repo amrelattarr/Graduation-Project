@@ -18,6 +18,7 @@ export class Register implements OnInit{
 
   subscription : Subscription = new Subscription();
   registerForm !: FormGroup
+  showPassword = false;
 
   ngOnInit(): void {
     this.initForm()
@@ -26,7 +27,7 @@ export class Register implements OnInit{
 
   initForm(): void {
     this.registerForm = this.fb.group({
-      fullName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      fullName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20),Validators.pattern(/^[a-zA-Z\s]+$/)]],
       phone: [null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]],
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
@@ -51,6 +52,10 @@ export class Register implements OnInit{
       console.error('Error response:', err);
     }
   });
+}
+
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
 }
 
 }

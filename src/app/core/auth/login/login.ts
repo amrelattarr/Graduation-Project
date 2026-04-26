@@ -94,4 +94,10 @@ export class Login implements OnInit{
     }
   }
 
+  showPassword = false;
+
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
+
 }

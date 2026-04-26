@@ -1,125 +1,216 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F2EDE6] to-[#e8dccb] px-4">
+<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
 
-    <div class="w-full max-w-md backdrop-blur-lg bg-white/80 border border-white/40 p-8 rounded-3xl shadow-2xl">
-  
-      <!-- Header -->
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-extrabold text-[#C5A059] tracking-wide">
-          Create Account
-        </h2>
+  <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-14 border border-[#F0EBE3]">
+
+    <div class="mb-10">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Join NetFoodia
+        </span>
       </div>
-  
-      <!-- Form -->
-      <form 
-        [formGroup]="registerForm" 
-        (ngSubmit)="submit()" 
-        class="flex flex-col gap-6"
-      >
-  
-        <!-- Full Name -->
-        <div class="relative">
-          <input
-            type="text"
-            formControlName="fullName"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-placeholder-shown:text-gray-400 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Full Name
-          </label>
-        </div>
-  
-        <!-- Phone -->
-        <div class="relative">
-          <input
-            type="text"
-            formControlName="phone"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Phone Number
-          </label>
-        </div>
-  
-        <!-- Email -->
-        <div class="relative">
-          <input
-            type="email"
-            formControlName="email"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Email Address
-          </label>
-        </div>
-  
-        <!-- Password -->
-        <div class="relative">
-          <input
-            type="password"
-            formControlName="password"
-            placeholder=" "
-            class="peer w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
-          />
-          <label class="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-            peer-placeholder-shown:top-3 
-            peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#C5A059]
-            peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs  peer-focus:bg-white/80 px-1">
-            Password
-          </label>
-        </div>
-  
-<!-- Role Dropdown with visible placeholder -->
-<div class="relative">
-    <select
-      formControlName="role"
-      class="peer w-full p-3 pr-10 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C5A059] appearance-none cursor-pointer hover:border-[#C5A059] transition text-gray-400"
-    >
-      <option value="CharityAdmin" class="text-gray-700">CharityAdmin</option>
-      <option value="Volunteer" class="text-gray-700">Volunteer</option>
-      <option value="Donor" class="text-gray-700">Donor</option>
-    </select>
-  
-    <!-- Custom arrow -->
-    <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-      <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </div>
-  </div>
 
-  
-  
-        <!-- Button -->
+      <h2 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-3">
+        Create Account
+      </h2>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed">
+        Register as a donor, volunteer, or charity admin.
+      </p>
+    </div>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="submit()"
+      class="space-y-8"
+    >
+
+    <div class="relative">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+        Full Name
+      </label>
+    
+      <input
+        type="text"
+        formControlName="fullName"
+        placeholder="Enter your full name"
+        class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+      />
+    
+      @if(registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid) {
+
+        <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+      
+          @if(registerForm.get('fullName')?.errors?.['required']) {
+            Full name is required
+          }
+      
+          @else if(registerForm.get('fullName')?.errors?.['minlength']) {
+            Minimum 4 characters required
+          }
+      
+          @else if(registerForm.get('fullName')?.errors?.['maxlength']) {
+            Maximum 20 characters allowed
+          }
+      
+          @else if(registerForm.get('fullName')?.errors?.['pattern']) {
+            Numbers and special characters are not allowed
+          }
+      
+        </span>
+      
+      }
+    </div>
+
+    <div class="relative">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+        Phone Number
+      </label>
+    
+      <input
+        type="text"
+        formControlName="phone"
+        placeholder="Enter your phone number"
+        class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+      />
+    
+      @if(registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid) {
+
+        <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+      
+          @if(registerForm.get('phone')?.errors?.['required']) {
+            Phone number is required
+          }
+      
+          @else if(registerForm.get('phone')?.errors?.['pattern']) {
+            Enter a valid Egyptian phone number (11 digits starting with 010, 011, 012, or 015)
+          }
+      
+        </span>
+      
+      }
+    </div>
+
+    <div class="relative">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+        Email Address
+      </label>
+    
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+      />
+    
+      @if(registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+        <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+          @if(registerForm.get('email')?.errors?.['required']) {
+            Email is required
+          } @else {
+            Please enter a valid email
+          }
+        </span>
+      }
+    </div>
+
+    <div class="relative">
+
+      <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+        Password
+      </label>
+    
+      <div class="relative mt-3">
+    
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="w-full p-5 pr-12 bg-[#F8F7F4] border-none rounded-2xl
+                 focus:ring-1 focus:ring-[#C5A059] outline-none
+                 placeholder:text-gray-300 transition-all"
+        />
+    
+        <!-- ICON -->
+        <button
+          type="button"
+          (click)="togglePasswordVisibility()"
+          class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#C5A059] transition"
+        >
+          <i class="fa-solid"
+             [class.fa-eye]="!showPassword"
+             [class.fa-eye-slash]="showPassword">
+          </i>
+        </button>
+    
+      </div>
+    
+      @if(registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+    
+        <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+    
+          @if(registerForm.get('password')?.errors?.['required']) {
+            Password is required
+          }
+    
+          @else if(registerForm.get('password')?.errors?.['pattern']) {
+            Use 8+ chars with upper, lower, number & symbol
+          }
+    
+        </span>
+    
+      }
+    
+    </div>
+
+    <div class="relative">
+      <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+        Account Role
+      </label>
+    
+      <select
+        formControlName="role"
+        class="w-full mt-3 p-5 pr-12 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none appearance-none cursor-pointer text-gray-700 font-medium transition-all"
+      >
+        <option value="CharityAdmin">CharityAdmin</option>
+        <option value="Volunteer">Volunteer</option>
+        <option value="Donor">Donor</option>
+      </select>
+    
+      @if(registerForm.get('role')?.touched && registerForm.get('role')?.invalid) {
+        <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+          Role selection is required
+        </span>
+      }
+    
+      <div class="pointer-events-none absolute right-4 top-[49px] text-gray-400">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
+
+      <div class="pt-6 border-t border-[#F8F7F4]">
         <button
           type="submit"
-          class="mt-2 bg-[#C5A059] text-white p-3 rounded-xl cursor-pointer font-semibold tracking-wide hover:scale-[1.02] hover:shadow-lg transition-all duration-200"
+          class="w-full bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 cursor-pointer"
         >
           Register
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
         </button>
-  
-      </form>
-  
-      <!-- Footer -->
-      <p class="text-center text-sm text-gray-500 mt-6">
-        Already have an account?
-        <a routerLink="/login" class="text-[#C5A059] font-semibold hover:underline">
-          Login
-        </a>
-      </p>
-  
-    </div>
-  
+      </div>
+
+    </form>
+
+    <p class="text-center text-sm text-gray-400 mt-8">
+      Already have an account?
+      <a routerLink="/login" class="text-[#C5A059] font-semibold hover:underline">
+        Login
+      </a>
+    </p>
+
   </div>
+</div>

@@ -3,11 +3,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
+import { Map } from "../../../../app/shared/components/map/map";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule , Map ] ,
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -18,6 +19,7 @@ export class Profile implements OnInit {
 
   profileForm!: FormGroup;
   role: string | null = null;
+  isMapOpen = false;
 
   ngOnInit(): void {
     this.role = this.authService.getUserRole();
@@ -117,4 +119,26 @@ submit(): void {
   get latitude() { return this.profileForm.get('location.latitude'); }
   get longitude() { return this.profileForm.get('location.longitude'); }
   get businessType() { return this.profileForm.get('businessType'); }
+
+
+  openMap() {
+    this.isMapOpen = true;
+  
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
+  }
+  
+  closeMap() {
+    this.isMapOpen = false;
+  }
+  
+  onLocationSelected(event: { lat: number, lng: number }) {
+    this.profileForm.get('location')?.patchValue({
+      latitude: event.lat,
+      longitude: event.lng
+    });
+  
+    this.isMapOpen = false;
+  }
 }

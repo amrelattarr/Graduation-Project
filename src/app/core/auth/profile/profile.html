@@ -52,35 +52,64 @@
       }
 
       <div formGroupName="location" class="space-y-3">
-        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Geographic Verification</label>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="relative">
-            <input type="number" formControlName="latitude" placeholder="Latitude" step="any"
-              class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
-              [class.ring-1]="latitude?.touched && latitude?.invalid" [class.ring-red-300]="latitude?.touched && latitude?.invalid" />
-            
-            @if (latitude?.touched && latitude?.invalid) {
-              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">
-                @if(latitude?.errors?.['required']){ Latitude Required } 
-                @else { Value must be -90 to 90 }
-              </span>
-            }
+
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Geographic Verification
+        </label>
+      
+        <!-- LOCATION PICKER -->
+        <div
+          (click)="openMap()"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] rounded-2xl cursor-pointer flex items-center justify-between hover:bg-[#f1efe9] transition">
+      
+          <div class="flex items-center gap-4">
+      
+            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm">
+              <i class="fa-solid fa-location-dot text-red-500 text-lg"></i>
+            </div>
+      
+            <div>
+              <p class="text-sm font-semibold text-gray-700">
+                {{ profileForm.value.location?.latitude && profileForm.value.location?.longitude
+                    ? 'Location Selected'
+                    : 'Pick Location on Map' }}
+              </p>
+      
+              <p class="text-xs text-gray-400">
+                {{ profileForm.value.location?.latitude && profileForm.value.location?.longitude
+                    ? (profileForm.value.location.latitude + ', ' + profileForm.value.location.longitude)
+                    : 'Tap to open map' }}
+              </p>
+            </div>
+      
           </div>
-          
-          <div class="relative">
-            <input type="number" formControlName="longitude" placeholder="Longitude" step="any"
-              class="w-full p-4 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
-              [class.ring-1]="longitude?.touched && longitude?.invalid" [class.ring-red-300]="longitude?.touched && longitude?.invalid" />
-            
-            @if (longitude?.touched && longitude?.invalid) {
-              <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter animate-fade-in">
-                @if(longitude?.errors?.['required']){ Longitude Required } 
-                @else { Value must be -180 to 180 }
-              </span>
-            }
-          </div>
+      
+          <i class="fa-solid fa-chevron-right text-gray-400"></i>
+      
         </div>
+      
       </div>
+
+
+      @if(isMapOpen) {
+        <div class="fixed top-0 left-0 w-screen h-screen bg-black/60 flex items-center justify-center z-50">
+      
+          <div class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl overflow-hidden relative">
+      
+            <button
+              class="absolute top-3 right-3 z-50 text-gray-600 hover:text-black"
+              (click)="closeMap()">
+              ✕
+            </button>
+      
+            <app-map
+              (locationSelected)="onLocationSelected($event)">
+            </app-map>
+      
+          </div>
+      
+        </div>
+      }
 
       <div class="flex flex-col gap-3 pt-2 relative">
         <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Operational Address</label>

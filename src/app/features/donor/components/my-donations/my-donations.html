@@ -87,8 +87,8 @@
                 </a>
   
                 @if(
-                  donation.status?.toLowerCase() !== 'cancelled' &&
-                  donation.status?.toLowerCase() !== 'accepted'
+                  donation.status.toLowerCase() !== 'cancelled' &&
+                  donation.status.toLowerCase() !== 'accepted'
                 ) {
                   <a
                     [routerLink]="['/donor/edit-donation', donation.donationId]"
@@ -98,7 +98,7 @@
                   </a>
                 }
   
-                @if(donation.status?.toLowerCase() === 'pending') {
+                @if(donation.status.toLowerCase() === 'pending') {
                   <button
                     type="button"
                     (click)="cancelDonation(donation.donationId)"

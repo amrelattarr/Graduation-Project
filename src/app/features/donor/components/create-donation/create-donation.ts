@@ -7,13 +7,15 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Donor } from '../../services/donor';
+import { LocationService } from '../../../../shared/services/location-service';
+import { Map } from "../../../../shared/components/map/map";
 
 @Component({
   selector: 'app-create-donation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, Map],
   templateUrl: './create-donation.html',
   styleUrl: './create-donation.css',
 })
@@ -22,8 +24,12 @@ export class CreateDonation {
   private readonly donor = inject(Donor);
   private readonly router = inject(Router);
   private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute)
+  private readonly locationService = inject(LocationService);
 
   donationForm!: FormGroup;
+  isMapOpen = false;
+
 
   selectedImage: File | null = null;
   imagePreview: string | null = null;
@@ -36,6 +42,15 @@ export class CreateDonation {
   ngOnInit(): void {
     this.initForm();
     this.loadCharities();
+  
+    this.locationService.location$.subscribe(location => {
+      if (location) {
+        this.donationForm.patchValue({
+          latitude: location.lat,
+          longitude: location.lng
+        });
+      }
+    });
   }
 
   initForm(): void {
@@ -165,4 +180,25 @@ export class CreateDonation {
       URL.revokeObjectURL(this.imagePreview);
     }
   }
+
+  // 🔥 open modal map
+  openMap() {
+    this.isMapOpen = true;
+  }
+
+  // 🔥 close modal map
+  closeMap() {
+    this.isMapOpen = false;
+  }
+
+  // 🔥 receive location from map
+  onLocationSelected(event: { lat: number, lng: number }) {
+    this.donationForm.patchValue({
+      latitude: event.lat,
+      longitude: event.lng
+    });
+
+    this.isMapOpen = false;
+  }
+
 }

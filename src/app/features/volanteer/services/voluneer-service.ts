@@ -24,6 +24,55 @@ export class VoluneerService {
     return this.httpClient.get(environment.baseUrl + 'VolunteerMembership/my-membership');
   }
 
+  // ================= PICKUP TASKS =================
+
+  getPickupOffers(): Observable<any> {
+    return this.httpClient.get(
+      environment.baseUrl + 'Volunteer/PickupTasks/Offers'
+    );
+  }
+
+  acceptPickupTask(taskId: number): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Accept/${taskId}`,
+      {}
+    );
+  }
+
+  rejectPickupTask(taskId: number): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Reject/${taskId}`,
+      {}
+    );
+  }
+
+  cancelPickupTask(taskId: number): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Cancel/${taskId}`,
+      {}
+    );
+  }
+
+  startPickupTask(taskId: number): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Start/${taskId}`,
+      {}
+    );
+  }
+
+  completePickupTask(taskId: number): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Complete/${taskId}`,
+      {}
+    );
+  }
+
+  getPickupHistory(): Observable<any> {
+    return this.httpClient.get(
+      environment.baseUrl + 'Volunteer/PickupTasks/History'
+    );
+  }
+
 
   
 }

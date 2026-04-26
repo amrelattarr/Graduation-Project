@@ -1,0 +1,310 @@
+<div class="min-h-screen bg-[#F2EDE6] px-6 py-10">
+    <div class="max-w-6xl mx-auto">
+  
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+        <div>
+          <div class="text-xs text-gray-400 mb-2 flex gap-2">
+            <a routerLink="/volunteer-home" class="hover:text-[#C5A059] transition">
+              Home
+            </a>
+            <span>/</span>
+            <span>Pickup Tasks</span>
+          </div>
+  
+          <h1 class="text-4xl font-bold text-[#111]">
+            Pickup Tasks
+          </h1>
+  
+          <p class="text-gray-500 mt-2">
+            Review pickup offers, accept available tasks, and manage your deliveries.
+          </p>
+        </div>
+  
+        <button
+          type="button"
+          (click)="refreshAll()"
+          class="bg-[#111] text-white px-7 py-4 rounded-2xl shadow-sm hover:shadow-md transition font-medium w-fit"
+        >
+          Refresh
+        </button>
+      </div>
+  
+      @if(errorMessage) {
+        <div class="mb-5 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+          {{ errorMessage }}
+        </div>
+      }
+  
+      @if(successMessage) {
+        <div class="mb-5 bg-green-50 text-green-600 px-5 py-4 rounded-2xl text-sm">
+          {{ successMessage }}
+        </div>
+      }
+  
+      <!-- Available Offers -->
+      <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6 mb-8">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-[#111]">
+            Available Offers
+          </h2>
+  
+          <p class="text-gray-400 text-sm mt-1">
+            Pickup tasks offered to volunteers in your charity membership.
+          </p>
+        </div>
+  
+        @if(isLoading) {
+          <div class="bg-[#F8F7F4] rounded-2xl p-6 text-gray-500">
+            Loading pickup offers...
+          </div>
+        }
+  
+        @if(!isLoading && offers.length === 0) {
+          <div class="bg-[#F8F7F4] rounded-2xl p-8 text-center">
+            <h3 class="text-xl font-semibold text-[#111]">
+              No Pickup Offers
+            </h3>
+            <p class="text-gray-400 mt-2">
+              You do not have any open pickup task offers right now.
+            </p>
+          </div>
+        }
+  
+        <div class="grid grid-cols-1 gap-5">
+          @for(task of offers; track task.taskId) {
+  
+            <div class="bg-[#FAF9F6] rounded-3xl p-5 flex flex-col lg:flex-row gap-6">
+  
+              <!-- Card Image -->
+              <div class="w-full lg:w-52 h-52 bg-white rounded-2xl overflow-hidden flex-shrink-0 flex items-center justify-center">
+                @if(task.pictureUrl) {
+                  <img
+                    [src]="task.pictureUrl"
+                    alt="Donation"
+                    class="w-full h-full object-cover"
+                  />
+                } @else {
+                  <div class="text-gray-300 text-sm">
+                    Pickup Task
+                  </div>
+                }
+              </div>
+  
+              <!-- Content -->
+              <div class="flex-1 min-w-0">
+  
+                <div class="flex flex-col md:flex-row md:items-center gap-3">
+                  <h3 class="text-2xl font-bold text-[#111] break-words">
+                    Task #{{ task.taskId }}
+                  </h3>
+  
+                  <span
+                    class="w-fit px-3 py-1 rounded-full text-xs font-medium"
+                    [ngClass]="{
+                      'bg-yellow-50 text-yellow-700': getStatus(task) === 'pending' || getStatus(task) === 'offered' || getStatus(task) === 'open',
+                      'bg-green-50 text-green-700': getStatus(task) === 'accepted' || getStatus(task) === 'assigned',
+                      'bg-blue-50 text-blue-600': getStatus(task) === 'started' || getStatus(task) === 'inprogress' || getStatus(task) === 'in-progress',
+                      'bg-gray-100 text-gray-600': getStatus(task) === 'cancelled',
+                      'bg-red-50 text-red-500': getStatus(task) === 'rejected' || getStatus(task) === 'failed',
+                      'bg-emerald-50 text-emerald-600': getStatus(task) === 'completed'
+                    }"
+                  >
+                    {{ getDisplayStatus(task) }}
+                  </span>
+                </div>
+  
+                <p class="text-gray-500 mt-3">
+                  Donation #DON-{{ task.donationId }}
+                </p>
+  
+                <p class="text-gray-400 text-sm mt-2">
+                  Charity: {{ task.charityName || 'Charity' }}
+                </p>
+  
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+  
+                  <div class="bg-white rounded-2xl p-4">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                      SLA Due
+                    </p>
+                    <h4 class="text-sm font-semibold mt-2">
+                      {{ task.slaDueAt | date:'medium' }}
+                    </h4>
+                  </div>
+  
+                  <div class="bg-white rounded-2xl p-4">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                      Offered
+                    </p>
+                    <h4 class="text-sm font-semibold mt-2">
+                      {{ task.offeredAt ? (task.offeredAt | date:'medium') : '-' }}
+                    </h4>
+                  </div>
+  
+                  <div class="bg-white rounded-2xl p-4">
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                      Response
+                    </p>
+                    <h4 class="text-sm font-semibold mt-2">
+                      {{ task.response || task.status || '-' }}
+                    </h4>
+                  </div>
+  
+                </div>
+  
+                <!-- Buttons -->
+                <div class="flex flex-wrap gap-3 mt-6">
+  
+                  @if(canAcceptOrReject(task)) {
+                    <button
+                      type="button"
+                      (click)="acceptTask(task.taskId)"
+                      class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                    >
+                      Accept
+                    </button>
+  
+                    <button
+                      type="button"
+                      (click)="rejectTask(task.taskId)"
+                      class="bg-white border border-gray-100 text-red-500 px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                    >
+                      Reject
+                    </button>
+                  }
+  
+                </div>
+  
+              </div>
+  
+            </div>
+  
+          }
+        </div>
+      </div>
+  
+      <!-- Pickup History -->
+      <div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-[#111]">
+            Pickup History
+          </h2>
+  
+          <p class="text-gray-400 text-sm mt-1">
+            Your previous pickup task activity.
+          </p>
+        </div>
+  
+        @if(isHistoryLoading) {
+          <div class="bg-[#F8F7F4] rounded-2xl p-6 text-gray-500">
+            Loading pickup history...
+          </div>
+        }
+  
+        @if(!isHistoryLoading && history.length === 0) {
+          <div class="bg-[#F8F7F4] rounded-2xl p-8 text-center text-gray-400">
+            No pickup task history yet.
+          </div>
+        }
+  
+        @if(history.length > 0) {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+                <tr>
+                  <th class="px-6 py-4 rounded-l-2xl">Task</th>
+                  <th class="px-6 py-4">Donation</th>
+                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4">Started</th>
+                  <th class="px-6 py-4">Completed</th>
+                  <th class="px-6 py-4">SLA</th>
+                  <th class="px-6 py-4 rounded-r-2xl">Actions</th>
+                </tr>
+              </thead>
+  
+              <tbody class="divide-y divide-gray-100">
+                @for(task of history; track task.taskId) {
+                  <tr class="hover:bg-[#FAF9F6] transition">
+  
+                    <td class="px-6 py-5 text-gray-600">
+                      #{{ task.taskId }}
+                    </td>
+  
+                    <td class="px-6 py-5 font-semibold text-[#111]">
+                      DON-{{ task.donationId }}
+                    </td>
+  
+                    <td class="px-6 py-5">
+                      <span
+                        class="px-3 py-1 rounded-full text-xs font-medium"
+                        [ngClass]="{
+                          'bg-yellow-50 text-yellow-700': getStatus(task) === 'pending' || getStatus(task) === 'offered' || getStatus(task) === 'open',
+                          'bg-green-50 text-green-700': getStatus(task) === 'accepted' || getStatus(task) === 'assigned',
+                          'bg-blue-50 text-blue-600': getStatus(task) === 'started' || getStatus(task) === 'inprogress' || getStatus(task) === 'in-progress',
+                          'bg-gray-100 text-gray-600': getStatus(task) === 'cancelled',
+                          'bg-red-50 text-red-500': getStatus(task) === 'rejected' || getStatus(task) === 'failed',
+                          'bg-emerald-50 text-emerald-600': getStatus(task) === 'completed'
+                        }"
+                      >
+                        {{ getDisplayStatus(task) }}
+                      </span>
+                    </td>
+  
+                    <td class="px-6 py-5 text-gray-500">
+                      {{ task.startedAt ? (task.startedAt | date:'medium') : '-' }}
+                    </td>
+  
+                    <td class="px-6 py-5 text-gray-500">
+                      {{ task.completedAt ? (task.completedAt | date:'medium') : '-' }}
+                    </td>
+  
+                    <td class="px-6 py-5 text-gray-500">
+                      {{ task.slaDueAt | date:'medium' }}
+                    </td>
+  
+                    <td class="px-6 py-5">
+                      <div class="flex flex-wrap gap-3">
+  
+                        @if(canStart(task)) {
+                          <button
+                            type="button"
+                            (click)="startTask(task.taskId)"
+                            class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                          >
+                            Start
+                          </button>
+  
+                          <button
+                            type="button"
+                            (click)="cancelTask(task.taskId)"
+                            class="bg-white border border-gray-100 text-red-500 px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                          >
+                            Cancel
+                          </button>
+                        }
+  
+                        @if(canComplete(task)) {
+                          <button
+                            type="button"
+                            (click)="completeTask(task.taskId)"
+                            class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                          >
+                            Complete
+                          </button>
+                        }
+  
+                      </div>
+                    </td>
+  
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+  
+      </div>
+  
+    </div>
+  </div>
