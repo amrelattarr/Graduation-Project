@@ -14,6 +14,10 @@ export class Charties implements OnInit {
   chartiesList : Charity[] = [];
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
     this.getAllCharties();
   }
 
@@ -38,6 +42,7 @@ export class Charties implements OnInit {
     this.admin.deActivateCharity(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.loadData();
       }
     })
   }
@@ -46,6 +51,7 @@ export class Charties implements OnInit {
     this.admin.reActivateCharity(id).subscribe({
       next: (res) => {
         console.log(res);
+        this.loadData();
       }
     })
   }
