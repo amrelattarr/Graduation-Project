@@ -19,6 +19,7 @@ export class Register implements OnInit{
   subscription : Subscription = new Subscription();
   registerForm !: FormGroup
   showPassword = false;
+  errorMessage = '';
 
   ngOnInit(): void {
     this.initForm()
@@ -49,7 +50,7 @@ export class Register implements OnInit{
   this.router.navigate(['/login']);}
     ,
     error: (err) => {
-      console.error('Error response:', err);
+      this.errorMessage = err.error.errors['General.Validation'][0]
     }
   });
 }

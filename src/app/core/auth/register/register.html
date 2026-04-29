@@ -19,6 +19,12 @@
       </p>
     </div>
 
+    @if(errorMessage) {
+      <div class="mb-6 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
+
     <form
       [formGroup]="registerForm"
       (ngSubmit)="submit()"
