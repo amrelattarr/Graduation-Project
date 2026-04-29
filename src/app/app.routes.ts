@@ -27,6 +27,7 @@ import { CharityDonations } from './features/charity-admin/components/charity-do
 import { PickupTasks } from './features/charity-admin/components/pickup-tasks/pickup-tasks';
 import { VolunteerPickupTasks } from './features/volanteer/components/volunteer-pickup-tasks/volunteer-pickup-tasks';
 import { Notifications } from './features/notifications/notifications';
+import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -63,7 +64,7 @@ export const routes: Routes = [
     {path: 'dashboard', component: Dashboard ,canActivate:[authGuard, roleGuard], data: { roles: ['Admin','CharityAdmin'] } , title: 'Dashboard page'},
     {path: 'map', component: Map ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','Admin' , 'CharityAdmin'] } , title: 'map page'},
     {path: 'notifications',component: Notifications, canActivate: [authGuard],title: 'Notifications'},
-    {path: '**' , redirectTo: 'login', pathMatch: 'full'},
+    {path: '**' , component:NotFound , title: 'Not Found Page'},
     
     
     // {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'Profile page'},
