@@ -1,3 +1,3 @@
 export const environment = {
-    baseUrl: 'http://netfoodia.runasp.net/api/'
+    baseUrl: 'https://netfoodia.runasp.net/api/'
 };
