@@ -66,7 +66,7 @@ export const routes: Routes = [
     {path: 'dashboard', component: Dashboard ,canActivate:[authGuard, roleGuard], data: { roles: ['Admin','CharityAdmin'] } , title: 'Dashboard page'},
     {path: 'map', component: Map ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','Admin' , 'CharityAdmin'] } , title: 'map page'},
     {path: 'notifications',component: Notifications, canActivate: [authGuard],title: 'Notifications'},
-    {path: '**' , component:NotFound , title: 'Not Found Page'},
+    {path: '**' , component:NotFound ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','Admin' , 'CharityAdmin'] } , title: 'Not Found Page'},
     
     
     // {path: 'profile', component: Profile ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer'] } , title: 'Profile page'},
