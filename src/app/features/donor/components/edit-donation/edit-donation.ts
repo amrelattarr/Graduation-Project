@@ -13,7 +13,7 @@ import { Map } from "../../../../shared/components/map/map";
 
 @Component({
   selector: 'app-edit-donation',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, Map],
   templateUrl: './edit-donation.html',
   styleUrl: './edit-donation.css',
 })
@@ -25,6 +25,7 @@ export class EditDonation {
 
   donationForm!: FormGroup;
   donationId!: number;
+  isMapOpen = false;
 
   isLoading = false;
   isSubmitting = false;
@@ -163,6 +164,26 @@ export class EditDonation {
     const localDate = new Date(date.getTime() - offset * 60 * 1000);
 
     return localDate.toISOString().slice(0, 16);
+  }
+
+  // 🔥 open modal map
+  openMap() {
+    this.isMapOpen = true;
+  }
+
+  // 🔥 close modal map
+  closeMap() {
+    this.isMapOpen = false;
+  }
+
+  // 🔥 receive location from map
+  onLocationSelected(event: { lat: number, lng: number }) {
+    this.donationForm.patchValue({
+      latitude: event.lat,
+      longitude: event.lng
+    });
+
+    this.isMapOpen = false;
   }
 
   
