@@ -44,6 +44,7 @@ export class Login implements OnInit{
       this.subscription = this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           localStorage.setItem('accessToken', res.accessToken);
+          localStorage.setItem('refreshToken', res.refreshToken);
           const decodedToken = this.decodeToken(res.accessToken);
           const Role = decodedToken['Role'];
           const IsCompleted = decodedToken['IsCompleted'];

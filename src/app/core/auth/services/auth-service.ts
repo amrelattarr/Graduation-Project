@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
@@ -61,7 +61,28 @@ createVolunteerProfile(data: object): Observable<any> {
   }
 
   logOut(): void {
+    const refreshToken = localStorage.getItem('refreshToken');
+  
+    if (refreshToken) {
+      this.logoutApi(refreshToken).subscribe({
+        next: () => this.clearLocalSession(),
+        error: () => this.clearLocalSession()
+      });
+    } else {
+      this.clearLocalSession();
+    }
+  }
+  
+  logoutApi(refreshToken: string) {
+    return this.httpClient.post(
+      `${environment.baseUrl}/Authentication/Logout`,
+      { refreshToken }
+    );
+  }
+  
+  private clearLocalSession(): void {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('Role');
     localStorage.removeItem('IsCompleted');
     this.router.navigate(['/login']);
@@ -82,5 +103,19 @@ createVolunteerProfile(data: object): Observable<any> {
 
   setCharityId(id: number): void {
     localStorage.setItem('charityId', id.toString());
+  }
+
+  refreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken');
+  
+    if (!refreshToken) {
+      this.logOut(); // clear session + redirect
+      return throwError(() => 'No refresh token');
+    }
+  
+    return this.httpClient.post(
+      environment.baseUrl + "Authentication/RefreshToken",
+      { refreshToken }
+    );
   }
 }
