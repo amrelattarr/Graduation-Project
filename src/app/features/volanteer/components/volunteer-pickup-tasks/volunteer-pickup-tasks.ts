@@ -33,6 +33,7 @@ export class VolunteerPickupTasks implements OnInit {
       next: (res: any) => {
         this.offers = Array.isArray(res) ? res : (res.data ?? []);
         this.isLoading = false;
+        console.log('Loaded pickup offers:', res);
       },
       error: (err) => {
         console.error(err);
