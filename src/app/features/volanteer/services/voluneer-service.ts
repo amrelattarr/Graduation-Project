@@ -73,6 +73,16 @@ export class VoluneerService {
     );
   }
 
+  makeInspection(taskId: number, passed: boolean, reason: string): Observable<any> {
+    return this.httpClient.post(
+      environment.baseUrl + `Volunteer/PickupTasks/Inspect/${taskId}`,
+      {
+        passed,
+        reason
+      }
+    );
+  }
+
 
   
 }

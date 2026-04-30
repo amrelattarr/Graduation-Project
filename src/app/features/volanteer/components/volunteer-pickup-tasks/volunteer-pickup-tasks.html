@@ -219,7 +219,9 @@
                   <th class="px-6 py-4">Started</th>
                   <th class="px-6 py-4">Completed</th>
                   <th class="px-6 py-4">SLA</th>
+                  <th class="px-6 py-4">Inspection</th>
                   <th class="px-6 py-4 rounded-r-2xl">Actions</th>
+                  
                 </tr>
               </thead>
   
@@ -261,6 +263,16 @@
   
                     <td class="px-6 py-5 text-gray-500">
                       {{ task.slaDueAt | date:'medium' }}
+                    </td>
+
+                    <td class="px-6 py-5 text-gray-500">
+                      <button
+                      type="button"
+                      (click)="makeInspectionByTaskId(task.taskId)"
+                      class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
+                    >
+                      Make Inspection
+                      </button>
                     </td>
   
                     <td class="px-6 py-5">
@@ -308,3 +320,70 @@
   
     </div>
   </div>
+
+  <!-- Inspection Modal -->
+  @if(showInspectionModal) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
+
+        <h2 class="text-2xl font-bold text-[#111] mb-2">Food Inspection</h2>
+        <p class="text-gray-400 text-sm mb-6">
+          Task #{{ inspectionTaskId }} — Please select the result and provide a reason.
+        </p>
+
+        <!-- Pass / Fail toggle -->
+        <div class="flex gap-3 mb-5">
+          <button
+            type="button"
+            (click)="inspectionPassed = true"
+            [class]="inspectionPassed
+              ? 'flex-1 py-3 rounded-2xl font-semibold bg-emerald-500 text-white shadow-sm transition'
+              : 'flex-1 py-3 rounded-2xl font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 transition'"
+          >
+            ✓ Pass
+          </button>
+          <button
+            type="button"
+            (click)="inspectionPassed = false"
+            [class]="!inspectionPassed
+              ? 'flex-1 py-3 rounded-2xl font-semibold bg-red-500 text-white shadow-sm transition'
+              : 'flex-1 py-3 rounded-2xl font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 transition'"
+          >
+            ✗ Fail
+          </button>
+        </div>
+
+        <!-- Reason -->
+        <div class="mb-6">
+          <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
+            Reason <span class="text-red-400">*</span>
+          </label>
+          <textarea
+            [(ngModel)]="inspectionReason"
+            rows="3"
+            placeholder="Describe the inspection result..."
+            class="w-full bg-[#F8F7F4] rounded-2xl px-4 py-3 text-sm text-[#111] outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-3">
+          <button
+            type="button"
+            (click)="confirmInspection()"
+            class="flex-1 bg-[#111] text-white py-3 rounded-2xl font-semibold hover:shadow-md transition"
+          >
+            Submit Inspection
+          </button>
+          <button
+            type="button"
+            (click)="cancelInspectionModal()"
+            class="flex-1 bg-gray-100 text-gray-600 py-3 rounded-2xl font-semibold hover:bg-gray-200 transition"
+          >
+            Cancel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }

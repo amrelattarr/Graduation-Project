@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { VoluneerService } from '../../services/voluneer-service';
 
 @Component({
   selector: 'app-volunteer-pickup-tasks',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './volunteer-pickup-tasks.html',
   styleUrl: './volunteer-pickup-tasks.css',
 })
@@ -20,6 +21,12 @@ export class VolunteerPickupTasks implements OnInit {
 
   errorMessage = '';
   successMessage = '';
+
+  // Inspection modal state
+  showInspectionModal = false;
+  inspectionTaskId: number | null = null;
+  inspectionPassed = true;
+  inspectionReason = '';
 
   ngOnInit(): void {
     this.refreshAll();
@@ -51,6 +58,7 @@ export class VolunteerPickupTasks implements OnInit {
       next: (res: any) => {
         this.history = Array.isArray(res) ? res : (res.data ?? []);
         this.isHistoryLoading = false;
+          console.log('Loaded pickup history:', res);
       },
       error: (err) => {
         console.error(err);
@@ -160,6 +168,42 @@ export class VolunteerPickupTasks implements OnInit {
           err?.error?.message || 'Failed to cancel pickup task';
       }
     });
+  }
+
+  makeInspectionByTaskId(taskId: number): void {
+    this.inspectionTaskId = taskId;
+    this.inspectionPassed = true;
+    this.inspectionReason = '';
+    this.showInspectionModal = true;
+  }
+
+  confirmInspection(): void {
+    if (!this.inspectionReason.trim()) {
+      this.errorMessage = 'Please enter a reason for the inspection.';
+      return;
+    }
+    this.showInspectionModal = false;
+    this.clearMessages();
+    this.volunteerService.makeInspection(
+      this.inspectionTaskId!,
+      this.inspectionPassed,
+      this.inspectionReason.trim()
+    ).subscribe({
+      next: () => {
+        this.successMessage = 'Inspection completed successfully';
+        this.refreshAll();
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage =
+          err?.error?.detail || err?.error?.message || 'Failed to complete inspection';
+      }
+    });
+  }
+
+  cancelInspectionModal(): void {
+    this.showInspectionModal = false;
+    this.inspectionTaskId = null;
   }
 
   startTask(taskId: number): void {
