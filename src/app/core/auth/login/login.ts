@@ -53,7 +53,7 @@ export class Login implements OnInit{
           this.isLoading = false;
 
           if (Role === 'Admin') {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/reports']);
           }
           else if (Role === 'CharityAdmin' && IsCompleted === 'True') {
             this.router.navigate(['/my-volunteers']);

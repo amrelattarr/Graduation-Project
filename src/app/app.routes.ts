@@ -28,6 +28,7 @@ import { PickupTasks } from './features/charity-admin/components/pickup-tasks/pi
 import { VolunteerPickupTasks } from './features/volanteer/components/volunteer-pickup-tasks/volunteer-pickup-tasks';
 import { Notifications } from './features/notifications/notifications';
 import { NotFound } from './shared/components/not-found/not-found';
+import { Reports } from './shared/components/reports/reports';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'login', pathMatch: 'full'},
@@ -56,6 +57,7 @@ export const routes: Routes = [
     ]},
     {path: '' , component: AdminLayout,canActivate:[authGuard, roleGuard], data: { roles: ['Admin'] } , children: [
         {path: 'charties' , component: Charties , title: 'Charties page'},
+        {path: 'reports' , component: Reports , title: 'Reports page'},
 
     ]},
     {path: 'change-password', component: ChangePassword ,canActivate:[authGuard, roleGuard], data: { roles: ['Donor','Volunteer','CharityAdmin','Admin'] } , title: 'Change password page'},
