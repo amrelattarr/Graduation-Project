@@ -46,7 +46,6 @@ export class Register implements OnInit{
   this.subscription.unsubscribe();
   this.subscription = this.authService.registerForm(this.registerForm.value).subscribe({
    next: (res) => {
-  console.log('Success response:', res);
   this.router.navigate(['/login']);}
     ,
     error: (err) => {

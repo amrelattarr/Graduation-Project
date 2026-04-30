@@ -1,12 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { AbstractControl,FormBuilder,FormGroup,ReactiveFormsModule,Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Donor } from '../../services/donor';
 import { LocationService } from '../../../../shared/services/location-service';
@@ -56,19 +50,20 @@ export class CreateDonation {
   initForm(): void {
     this.donationForm = this.fb.group({
       charityId: [null, Validators.required],
-      foodType: ['', [Validators.required, Validators.minLength(2)]],
+  
+      foodType: ['', Validators.required], // dropdown
+  
+      unitType: ['', Validators.required], // Kilos | Meals
+  
       quantity: [1, [Validators.required, Validators.min(1)]],
+  
       preparedTime: ['', [Validators.required, this.preparedTimeValidator]],
-      expirationTime: ['', [Validators.required, this.expirationTimeValidator]],
-      latitude: [
-        30.0444,
-        [Validators.required, Validators.min(-90), Validators.max(90)]
-      ],
-      longitude: [
-        31.2357,
-        [Validators.required, Validators.min(-180), Validators.max(180)]
-      ],
-      notes: [''],
+  
+      latitude: [null, [Validators.required, Validators.min(-90), Validators.max(90)]],
+  
+      longitude: [null, [Validators.required, Validators.min(-180), Validators.max(180)]],
+  
+      notes: ['']
     });
   }
 
@@ -122,39 +117,51 @@ export class CreateDonation {
   }
 
   submit(): void {
+    if (this.isSubmitting) return;
+  
     if (this.donationForm.invalid) {
       this.donationForm.markAllAsTouched();
       return;
     }
-
-    const prepared = new Date(this.donationForm.value.preparedTime);
-    const expiration = new Date(this.donationForm.value.expirationTime);
-
-    if (expiration <= prepared) {
-      this.errorMessage = 'Expiration time must be after prepared time';
-      return;
-    }
-
+  
     this.isSubmitting = true;
     this.errorMessage = '';
-
-    const charityId = Number(this.donationForm.value.charityId);
-
+  
+    if (!this.selectedImage) {
+      this.isSubmitting = false;
+      this.errorMessage = 'Please select an image for the donation.';
+      return;
+    }
+  
+    const formValue = this.donationForm.value;
+  
+    const prepared = new Date(formValue.preparedTime);
+  
+    // ❗ optional safety check (recommended)
+    if (isNaN(prepared.getTime())) {
+      this.isSubmitting = false;
+      this.errorMessage = 'Invalid prepared time';
+      return;
+    }
+  
+    const charityId = Number(formValue.charityId);
+  
     const body = {
-      foodType: this.donationForm.value.foodType,
-      quantity: Number(this.donationForm.value.quantity),
+      foodType: formValue.foodType,
+      unitType: formValue.unitType,
+      quantity: Number(formValue.quantity),
       preparedTime: prepared.toISOString(),
-      expirationTime: expiration.toISOString(),
-      latitude: Number(this.donationForm.value.latitude),
-      longitude: Number(this.donationForm.value.longitude),
-      notes: this.donationForm.value.notes ?? '',
+      latitude: Number(formValue.latitude),
+      longitude: Number(formValue.longitude),
+      notes: formValue.notes ?? ''
     };
-
+  
     this.donor.createDonation(
       charityId,
       body,
       this.selectedImage
-    ).subscribe({
+    )
+    .subscribe({
       next: () => {
         this.isSubmitting = false;
         this.router.navigate(['/donor/my-donations']);
@@ -162,7 +169,7 @@ export class CreateDonation {
       error: (err) => {
         console.error(err);
         this.isSubmitting = false;
-
+  
         this.errorMessage =
           err?.error?.errors
             ? Object.values(err.error.errors).flat().join(' | ')

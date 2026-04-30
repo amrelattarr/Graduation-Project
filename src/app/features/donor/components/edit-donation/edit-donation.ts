@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Donor } from '../../services/donor';
+import { Map } from "../../../../shared/components/map/map";
 
 @Component({
   selector: 'app-edit-donation',
@@ -38,13 +39,21 @@ export class EditDonation {
 
   initForm(): void {
     this.donationForm = this.fb.group({
-      foodType: ['', [Validators.required, Validators.minLength(2)]],
+      charityId: [null, Validators.required],
+  
+      foodType: ['', Validators.required], // dropdown
+  
+      unitType: ['', Validators.required], // Kilos | Meals
+  
       quantity: [1, [Validators.required, Validators.min(1)]],
+  
       preparedTime: ['', [Validators.required, this.preparedTimeValidator]],
-      expirationTime: ['', [Validators.required, this.expirationTimeValidator]],
-      latitude: [30.0444, [Validators.required, Validators.min(-90), Validators.max(90)]],
-      longitude: [31.2357, [Validators.required, Validators.min(-180), Validators.max(180)]],
-      notes: [''],
+  
+      latitude: [null, [Validators.required, Validators.min(-90), Validators.max(90)]],
+  
+      longitude: [null, [Validators.required, Validators.min(-180), Validators.max(180)]],
+  
+      notes: ['']
     });
   }
 
@@ -75,13 +84,14 @@ export class EditDonation {
         const donation = res.data ?? res;
 
         this.donationForm.patchValue({
+          charityId: donation.charityId,
           foodType: donation.foodType,
+          unitType: donation.unitType,
           quantity: donation.quantity,
           preparedTime: this.toDateTimeLocal(donation.preparedTime),
-          expirationTime: this.toDateTimeLocal(donation.expirationTime),
           latitude: donation.latitude,
           longitude: donation.longitude,
-          notes: donation.notes ?? '',
+          notes: donation.notes ?? ''
         });
 
         this.isLoading = false;
@@ -113,13 +123,14 @@ export class EditDonation {
     this.successMessage = '';
 
     const body = {
+      charityId: this.donationForm.value.charityId,
       foodType: this.donationForm.value.foodType,
+      unitType: this.donationForm.value.unitType,
       quantity: Number(this.donationForm.value.quantity),
       preparedTime: new Date(this.donationForm.value.preparedTime).toISOString(),
-      expirationTime: new Date(this.donationForm.value.expirationTime).toISOString(),
       latitude: Number(this.donationForm.value.latitude),
       longitude: Number(this.donationForm.value.longitude),
-      notes: this.donationForm.value.notes ?? '',
+      notes: this.donationForm.value.notes ?? ''
     };
 
     this.donor.editDonation(this.donationId, body).subscribe({
@@ -153,4 +164,6 @@ export class EditDonation {
 
     return localDate.toISOString().slice(0, 16);
   }
+
+  
 }

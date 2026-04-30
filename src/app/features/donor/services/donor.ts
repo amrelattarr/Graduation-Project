@@ -12,20 +12,27 @@ export class Donor {
 
   createDonation(charityId: number, data: any, image?: File | null): Observable<any> {
     const formData = new FormData();
-if (image) {
-  formData.append('Image', image);
-}
-    formData.append('FoodType', data.foodType);
-    formData.append('Quantity', String(data.quantity));
-    formData.append('PreparedTime', data.preparedTime);
-    formData.append('ExpirationTime', data.expirationTime);
-    formData.append('Latitude', String(data.latitude));
-    formData.append('Longitude', String(data.longitude));
-    formData.append('Notes', data.notes ?? '');
-
+  
+    // image (body)
+    if (image) {
+      formData.append('Image', image);
+    }
+  
+    // query params
+    const params = {
+      FoodType: data.foodType,
+      UnitType: data.unitType, // Kilos | Meals
+      Quantity: data.quantity,
+      PreparedTime: data.preparedTime,
+      Latitude: data.latitude,
+      Longitude: data.longitude,
+      Notes: data.notes ?? ''
+    };
+  
     return this.httpClient.post(
       `${environment.baseUrl}Donation/Create/${charityId}`,
-      formData
+      formData,
+      { params }
     );
   }
 

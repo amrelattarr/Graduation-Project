@@ -32,6 +32,7 @@ export class MyDonations {
       next: (res: any) => {
         this.donations = Array.isArray(res) ? res : (res.data ?? []);
         this.isLoading = false;
+        console.log('My Donations:', this.donations);
       },
       error: (err) => {
         console.error(err);

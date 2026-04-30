@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MyVoulunteers } from '../../interfaces/charity-admin-interface';
 import { CharityService } from '../../services/charity';
 import { CommonModule } from '@angular/common';
+import { MyProfileService } from '../../../../shared/components/my-profile/services/my-profile-service';
 
 @Component({
   selector: 'app-my-volunteers',
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MyVolunteers implements OnInit {
   private readonly charityService = inject(CharityService);
+  private readonly myProfileService = inject(MyProfileService);
 
   PendingList: MyVoulunteers[] = [];
   AcceptedList: MyVoulunteers[] = [];
@@ -19,23 +21,44 @@ export class MyVolunteers implements OnInit {
   isLoading = false;
   errorMessage = '';
   successMessage = '';
+  charityId: number | null = null;
 
   ngOnInit(): void {
-    this.loadData();
+    this.getCharityId()
   }
 
   loadData(): void {
-    this.getPendingVolunteers();
-    this.getAcceptedVolunteers();
+    if (this.charityId){
+      this.getPendingVolunteers(this.charityId);
+      this.getAcceptedVolunteers(this.charityId);
+    }
   }
 
-  getPendingVolunteers(): void {
+  getCharityId(): void {
+    this.myProfileService.getprofile().subscribe({
+      next: (res) => {
+        this.charityId = res.charityAdmin?.charityId;
+  
+        console.log(this.charityId);
+  
+        if (this.charityId) {
+          this.loadData(); 
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  getPendingVolunteers(charityId : number): void {
     this.isLoading = true;
 
-    this.charityService.displayAllpendingRequests(7).subscribe({
+    this.charityService.displayAllpendingRequests(charityId).subscribe({
       next: (res) => {
         this.PendingList = Array.isArray(res) ? res : (res.data ?? []);
         this.isLoading = false;
+        console.log('hello')
       },
       error: (err) => {
         console.error(err);
@@ -45,8 +68,8 @@ export class MyVolunteers implements OnInit {
     });
   }
 
-  getAcceptedVolunteers(): void {
-    this.charityService.displayAllApprovedVolunteers(7).subscribe({
+  getAcceptedVolunteers(charityId : number): void {
+    this.charityService.displayAllApprovedVolunteers(charityId).subscribe({
       next: (res) => {
         this.AcceptedList = Array.isArray(res) ? res : (res.data ?? []);
       },

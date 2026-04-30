@@ -97,7 +97,7 @@ submit(): void {
 
     this.authService.createDonorProfile(donorData).subscribe({
       next: (res) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/donor/home']);
       },
       error: (err) => console.error('Donor Profile Error:', err)
     });

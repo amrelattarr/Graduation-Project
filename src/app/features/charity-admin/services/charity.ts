@@ -38,7 +38,7 @@ export class CharityService {
   }
 
   // ================= DETAILS =================
-  getCharityDetails(charityId: number): Observable<ApiResponse<Charity>> {
+  getCharityDetails(charityId: number ): Observable<ApiResponse<Charity>> {
     return this.httpClient
       .get<Charity>(
         `${environment.baseUrl}Charity/Details/${charityId}`
@@ -193,8 +193,8 @@ getOpenPickupTasks(): Observable<any> {
     }));
   }
 
-  displayAllpendingRequests(charityId: number): Observable<any> {
-    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/7/pending`)
+  displayAllpendingRequests(charityId: number | null): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/${charityId}/pending`)
   }
 
   approveVolunteerRequest(Id: number): Observable<any> {
@@ -205,8 +205,8 @@ getOpenPickupTasks(): Observable<any> {
     return this.httpClient.post(environment.baseUrl + `VolunteerMembership/reject/${Id}`, {})
   }
 
-  displayAllApprovedVolunteers(charityId: number): Observable<any> {
-    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/7/memberships`)
+  displayAllApprovedVolunteers(charityId: number | null): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `VolunteerMembership/${charityId}/memberships`)
   }
 
   suspendVolunter(Id: number): Observable<any> {
