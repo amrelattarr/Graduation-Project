@@ -221,7 +221,6 @@
                   <th class="px-6 py-4">SLA</th>
                   <th class="px-6 py-4">Inspection</th>
                   <th class="px-6 py-4 rounded-r-2xl">Actions</th>
-                  
                 </tr>
               </thead>
   
@@ -266,13 +265,7 @@
                     </td>
 
                     <td class="px-6 py-5 text-gray-500">
-                      <button
-                      type="button"
-                      (click)="makeInspectionByTaskId(task.taskId)"
-                      class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
-                    >
-                      Make Inspection
-                      </button>
+                      {{ task.inspectionResult ?? '-' }}
                     </td>
   
                     <td class="px-6 py-5">
@@ -281,7 +274,7 @@
                         @if(canStart(task)) {
                           <button
                             type="button"
-                            (click)="startTask(task.taskId)"
+                            (click)="openStartInspection(task.taskId)"
                             class="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-sm hover:shadow-md transition font-medium"
                           >
                             Start
@@ -331,26 +324,18 @@
           Task #{{ inspectionTaskId }} — Please select the result and provide a reason.
         </p>
 
-        <!-- Pass / Fail toggle -->
-        <div class="flex gap-3 mb-5">
-          <button
-            type="button"
-            (click)="inspectionPassed = true"
-            [class]="inspectionPassed
-              ? 'flex-1 py-3 rounded-2xl font-semibold bg-emerald-500 text-white shadow-sm transition'
-              : 'flex-1 py-3 rounded-2xl font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 transition'"
+        <!-- Approved Dropdown -->
+        <div class="mb-5">
+          <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
+            Inspection Result <span class="text-red-400">*</span>
+          </label>
+          <select
+            [(ngModel)]="inspectionApproved"
+            class="w-full bg-[#F8F7F4] rounded-2xl px-4 py-3 text-sm text-[#111] outline-none focus:ring-2 focus:ring-[#C5A059] appearance-none cursor-pointer"
           >
-            ✓ Pass
-          </button>
-          <button
-            type="button"
-            (click)="inspectionPassed = false"
-            [class]="!inspectionPassed
-              ? 'flex-1 py-3 rounded-2xl font-semibold bg-red-500 text-white shadow-sm transition'
-              : 'flex-1 py-3 rounded-2xl font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 transition'"
-          >
-            ✗ Fail
-          </button>
+            <option value="true">✓ Approved — Food is in good condition</option>
+            <option value="false">✗ Not Approved — Food failed inspection</option>
+          </select>
         </div>
 
         <!-- Reason -->

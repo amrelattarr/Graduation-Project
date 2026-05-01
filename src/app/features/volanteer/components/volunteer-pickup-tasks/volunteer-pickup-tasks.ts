@@ -25,7 +25,7 @@ export class VolunteerPickupTasks implements OnInit {
   // Inspection modal state
   showInspectionModal = false;
   inspectionTaskId: number | null = null;
-  inspectionPassed = true;
+  inspectionApproved = 'true';   // string for <select> binding
   inspectionReason = '';
 
   ngOnInit(): void {
@@ -118,9 +118,11 @@ export class VolunteerPickupTasks implements OnInit {
 
     return (
       status === 'inprogress' ||
-      status === 'in-progress'
+      status === 'in-progress' ||
+      status === 'started'
     );
   }
+
 
   acceptTask(taskId: number): void {
     this.clearMessages();
@@ -170,10 +172,11 @@ export class VolunteerPickupTasks implements OnInit {
     });
   }
 
-  makeInspectionByTaskId(taskId: number): void {
+  openStartInspection(taskId: number): void {
     this.inspectionTaskId = taskId;
-    this.inspectionPassed = true;
+    this.inspectionApproved = 'true';
     this.inspectionReason = '';
+    this.clearMessages();
     this.showInspectionModal = true;
   }
 
@@ -182,21 +185,28 @@ export class VolunteerPickupTasks implements OnInit {
       this.errorMessage = 'Please enter a reason for the inspection.';
       return;
     }
+    const approved = this.inspectionApproved === 'true';
     this.showInspectionModal = false;
     this.clearMessages();
+
     this.volunteerService.makeInspection(
       this.inspectionTaskId!,
-      this.inspectionPassed,
+      approved,
       this.inspectionReason.trim()
     ).subscribe({
       next: () => {
-        this.successMessage = 'Inspection completed successfully';
-        this.refreshAll();
+        if (approved) {
+          // Inspection passed — fire start task automatically
+          this.startTask(this.inspectionTaskId!);
+        } else {
+          this.successMessage = 'Inspection submitted. Task was not approved.';
+          this.refreshAll();
+        }
       },
       error: (err) => {
         console.error(err);
         this.errorMessage =
-          err?.error?.detail || err?.error?.message || 'Failed to complete inspection';
+          err?.error?.detail || err?.error?.message || 'Failed to submit inspection';
       }
     });
   }
