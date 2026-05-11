@@ -1,0 +1,95 @@
+<div class="bg-white rounded-3xl shadow-sm border border-white/60 p-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="text-2xl font-bold text-[#111]">
+        Charities
+      </h2>
+      <p class="text-gray-400 text-sm mt-1">
+        Manage registered charities, verification, and activation status.
+      </p>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left">
+
+      <!-- Head -->
+      <thead class="bg-[#F8F7F4] text-gray-500 uppercase text-xs tracking-wider">
+        <tr>
+          <th class="px-6 py-4 rounded-l-2xl">ID</th>
+          <th class="px-6 py-4">Organization</th>
+          <th class="px-6 py-4">City</th>
+          <th class="px-6 py-4">Governorate</th>
+          <th class="px-6 py-4 text-center">Verification</th>
+          <th class="px-6 py-4 text-center rounded-r-2xl">Activity</th>
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody class="divide-y divide-gray-100">
+        @for (charity of chartiesList; track charity.charityId) {
+
+          <tr class="hover:bg-[#FAF9F6] transition">
+
+            <!-- ID -->
+            <td class="px-6 py-5 text-gray-600">
+              #{{ charity.charityId }}
+            </td>
+
+            <!-- Name -->
+            <td class="px-6 py-5 font-semibold text-[#111]">
+              {{ charity.organizationName }}
+            </td>
+
+            <!-- City -->
+            <td class="px-6 py-5 text-gray-500">
+              {{ charity.city }}
+            </td>
+
+            <!-- Governorate -->
+            <td class="px-6 py-5 text-gray-500">
+              {{ charity.governorate }}
+            </td>
+
+            <!-- Verification -->
+            <td class="px-6 py-5 text-center">
+
+              @if (charity.isVerified) {
+                <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-600">
+                  Verified
+                </span>
+              } @else {
+                <button
+                  (click)="verifyCharityById(charity.charityId)"
+                  class="bg-[#111] text-white px-4 py-2 rounded-2xl shadow-sm hover:shadow-md transition text-xs font-medium"
+                >
+                  Verify
+                </button>
+              }
+
+            </td>
+
+            <!-- Activity -->
+            <td class="px-6 py-5 text-center">
+              <button
+                (click)="toggleCharityStatus(charity)"
+                class="px-5 py-2 rounded-2xl shadow-sm hover:shadow-md transition text-xs font-medium"
+                [ngClass]="{
+                  'bg-white border border-gray-100 text-red-500': charity.isActivated,
+                  'bg-[#111] text-white': !charity.isActivated
+                }"
+              >
+                {{ charity.isActivated ? 'Deactivate' : 'Activate' }}
+              </button>
+            </td>
+
+          </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

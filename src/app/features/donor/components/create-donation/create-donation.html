@@ -1,0 +1,267 @@
+ng s -o<div class="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F6] px-6 py-12">
+
+  <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.04)] p-10 md:p-20 border border-[#F0EBE3]">
+
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C5A059]">
+          Donor • New Donation
+        </span>
+      </div>
+
+      <div class="text-xs text-gray-400 mb-5 flex gap-2">
+        <a routerLink="/donor/home" class="hover:text-[#C5A059]">Home</a>
+        <span>/</span>
+        <a routerLink="/donor/my-donations" class="hover:text-[#C5A059]">Donations</a>
+        <span>/</span>
+        <span>Create</span>
+      </div>
+
+      <h1 class="text-4xl font-light text-[#1A1A1A] tracking-tight mb-4">
+        Create Donation
+      </h1>
+
+      <p class="text-gray-400 text-sm font-light leading-relaxed max-w-md">
+        Add donation details, location, timing, and image to start the food redistribution lifecycle.
+      </p>
+    </div>
+
+    @if(errorMessage) {
+      <div class="mb-8 bg-red-50 text-red-500 px-5 py-4 rounded-2xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form [formGroup]="donationForm" (ngSubmit)="submit()" class="space-y-10">
+
+      <!-- Charity -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Charity Organization
+        </label>
+
+        <select
+          formControlName="charityId"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] appearance-none cursor-pointer text-gray-700 font-medium transition-all outline-none"
+          [class.ring-1]="donationForm.get('charityId')?.touched && donationForm.get('charityId')?.invalid"
+          [class.ring-red-300]="donationForm.get('charityId')?.touched && donationForm.get('charityId')?.invalid"
+        >
+          <option [ngValue]="null" disabled>Select Charity Organization</option>
+
+          @for(charity of charities; track charity.charityId || charity.id) {
+            <option [ngValue]="charity.charityId || charity.id">
+              {{ charity.organizationName }}
+            </option>
+          }
+        </select>
+
+        @if(donationForm.get('charityId')?.touched && donationForm.get('charityId')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            Charity organization is required
+          </span>
+        }
+      </div>
+
+      <!-- Food Type -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Food Type
+        </label>
+
+        <select
+          formControlName="foodType"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] appearance-none cursor-pointer text-gray-700 font-medium transition-all outline-none"
+          [class.ring-1]="donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid"
+          [class.ring-red-300]="donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid"
+        >
+          <option value="" disabled selected>Select Food Type</option>
+          <option value="CookedMeal">Cooked Meal</option>
+          <option value="Perishable">Perishable</option>
+          <option value="BakedGoods">Baked Goods</option>
+          <option value="NonPerishable">Non Perishable</option>
+          <option value="Beverage">Beverage</option>
+          <option value="Frozen">Frozen</option>
+        </select>
+
+        @if(donationForm.get('foodType')?.touched && donationForm.get('foodType')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            Food type is required
+          </span>
+        }
+      </div>
+
+      <!-- Unit Type -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Unit Type
+        </label>
+
+        <select
+          formControlName="unitType"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] appearance-none cursor-pointer text-gray-700 font-medium transition-all outline-none"
+          [class.ring-1]="donationForm.get('unitType')?.touched && donationForm.get('unitType')?.invalid"
+          [class.ring-red-300]="donationForm.get('unitType')?.touched && donationForm.get('unitType')?.invalid"
+        >
+          <option value="" disabled selected>Select Unit Type</option>
+          <option value="Kilos">Kilos</option>
+          <option value="Meals">Meals</option>
+        </select>
+
+        @if(donationForm.get('unitType')?.touched && donationForm.get('unitType')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            Unit type is required
+          </span>
+        }
+      </div>
+
+      <!-- Quantity -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Quantity
+        </label>
+
+        <input
+          formControlName="quantity"
+          type="number"
+          placeholder="Quantity"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all"
+          [class.ring-1]="donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid"
+          [class.ring-red-300]="donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid"
+        />
+
+        @if(donationForm.get('quantity')?.touched && donationForm.get('quantity')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            Quantity must be at least 1
+          </span>
+        }
+      </div>
+
+      <!-- Prepared Time -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Prepared Time
+        </label>
+
+        <input
+          formControlName="preparedTime"
+          type="datetime-local"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none transition-all"
+          [class.ring-1]="donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid"
+          [class.ring-red-300]="donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid"
+        />
+
+        @if(donationForm.get('preparedTime')?.touched && donationForm.get('preparedTime')?.invalid) {
+          <span class="text-[9px] text-red-400 absolute -bottom-5 left-2 uppercase font-bold tracking-tighter">
+            Prepared time is required
+          </span>
+        }
+      </div>
+
+      <!-- LOCATION (UNCHANGED) -->
+      <div class="relative">
+
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Location
+        </label>
+
+        <div
+          (click)="openMap()"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] rounded-2xl cursor-pointer flex items-center justify-between hover:bg-[#f1efe9] transition">
+
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm">
+              <i class="fa-solid fa-location-dot text-red-500 text-lg"></i>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-700">
+                {{ donationForm.value.latitude && donationForm.value.longitude
+                    ? 'Location Selected'
+                    : 'Pick Location on Map' }}
+              </p>
+
+              <p class="text-xs text-gray-400">
+                {{ donationForm.value.latitude && donationForm.value.longitude
+                    ? (donationForm.value.latitude + ', ' + donationForm.value.longitude)
+                    : 'Tap to open map' }}
+              </p>
+            </div>
+          </div>
+
+          <i class="fa-solid fa-chevron-right text-gray-400"></i>
+        </div>
+      </div>
+
+      @if(isMapOpen) {
+        <div class="fixed top-0 left-0 w-screen h-screen bg-black/60 flex items-center justify-center z-50">
+          <div class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl overflow-hidden relative">
+            <button class="absolute top-3 right-3 z-50 text-gray-600 hover:text-black" (click)="closeMap()">✕</button>
+            <app-map (locationSelected)="onLocationSelected($event)"></app-map>
+          </div>
+        </div>
+      }
+
+      <!-- Notes -->
+      <div class="relative">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Notes
+        </label>
+
+        <textarea
+          formControlName="notes"
+          placeholder="Notes"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] border-none rounded-2xl focus:ring-1 focus:ring-[#C5A059] outline-none placeholder:text-gray-300 transition-all min-h-32"
+        ></textarea>
+      </div>
+
+      <!-- Image -->
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">
+          Donation Image
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          class="w-full mt-3 p-5 bg-[#F8F7F4] rounded-2xl text-gray-400"
+        />
+
+        @if(imagePreview) {
+          <div class="mt-5">
+            <img
+              [src]="imagePreview"
+              alt="Donation Preview"
+              class="w-full max-h-64 object-cover rounded-2xl border border-gray-100"
+            />
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between pt-10 mt-6 border-t border-[#F8F7F4]">
+        <button
+          type="button"
+          (click)="goBack()"
+          class="text-[11px] font-bold uppercase tracking-widest text-gray-300 hover:text-[#C5A059] transition-colors cursor-pointer"
+        >
+          Back
+        </button>
+
+        <button
+          type="submit"
+          class="bg-[#1A1A1A] text-white px-12 py-5 rounded-full font-medium text-sm tracking-wide hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex items-center gap-3 active:scale-95 cursor-pointer disabled:opacity-50"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? 'Creating...' : 'Create Donation' }}
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

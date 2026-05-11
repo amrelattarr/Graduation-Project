@@ -1,0 +1,394 @@
+<main class="min-h-screen bg-[#FAF9F6]">
+
+  <!-- Hero Section -->
+<swiper-slide>
+  <div class="relative w-full h-[60vh] min-h-[500px] flex flex-col md:flex-row overflow-hidden rounded-3xl bg-white">
+    
+  <div class="relative md:w-1/2 w-full h-1/2 md:h-full group">
+      <swiper-container 
+        slides-per-view="1" 
+        loop="true" 
+        autoplay-delay="3000" 
+        pagination="true"
+        nested="true"
+        class="h-full w-full"
+      >
+        <swiper-slide class="relative h-full w-full">
+          <img src="./assets/photo-1593113616828-6f22bca04804.jpg" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <h3 class="text-white text-3xl font-bold tracking-tight">Making Impact</h3>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide class="relative h-full w-full">
+          <img src="./assets/photo-1630510590497-e69fac21bfbd.jpg" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <h3 class="text-white text-3xl font-bold tracking-tight">Community Care</h3>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide class="relative h-full w-full">
+          <img src="./assets/photo-1757332051150-a5b3c4510af8.jpg" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <h3 class="text-white text-3xl font-bold tracking-tight">Fresh Produce</h3>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+
+    <div class="md:w-1/2 w-full flex flex-col justify-center px-10 py-8 bg-[#F8F9FA]">
+      
+      <h2 class="text-3xl font-bold text-[#1A1A1A] mb-2">
+        Don't Waste Food, Share It
+      </h2>
+
+      <p class="text-gray-500 text-sm mb-8 leading-relaxed">
+        Connect surplus food with those who need it. Our volunteers bridge the gap between donors and charities.
+      </p>
+<div class="grid grid-cols-3 gap-3 mb-8">
+  <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+    <div class="text-xl font-bold text-[#1A1A1A]">
+      {{ (stats()?.mealsDonated | number) ?? '0' }}+
+    </div>
+    <div class="text-[10px] text-gray-400 uppercase">Meals</div>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+    <div class="text-xl font-bold text-[#1A1A1A]">
+      {{ (stats()?.volunteersCount | number) ?? '0' }}+
+    </div>
+    <div class="text-[10px] text-gray-400 uppercase">Volunteers</div>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+    <div class="text-xl font-bold text-[#1A1A1A]">
+      {{ (stats()?.charitiesPartnered | number) ?? '0' }}+
+    </div>
+    <div class="text-[10px] text-gray-400 uppercase">Charities</div>
+  </div>
+</div>
+
+      <div class="flex flex-col gap-3">
+        <button (click)="goToLogin()" class="w-full bg-[#0F1117] text-white py-4 rounded-xl font-medium hover:bg-black transition flex items-center justify-center gap-2">
+          <i class="fa-regular fa-heart"></i> Donate Food
+        </button>
+        
+        <div class="flex gap-3">
+          <button (click)="goToRegister()" class="w-1/2 bg-gray-200/50 text-[#1A1A1A] py-3 rounded-xl font-medium text-sm hover:bg-gray-200 transition">
+            <i class="fa-solid fa-user-group text-black text-lg"></i> Volunteer
+          </button>
+          <button (click)="goToRegister()" class="w-1/2 bg-gray-200/50 text-[#1A1A1A] py-3 rounded-xl font-medium text-sm hover:bg-gray-200 transition">
+            <i class="fa-regular fa-building"></i> Register Charity
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</swiper-slide>
+  <!-- How It Works -->
+  <section class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+
+      <div class="text-center mb-20">
+        <h2 class="text-4xl font-light text-[#1A1A1A] mb-4 tracking-tight">
+          How It Works
+        </h2>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+          Simple 3-step process to get food from donors to those who need it most
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-12">
+
+        <!-- Step 1 -->
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-[#F8F7F4] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#C5A059]/10 transition duration-300">
+            <i class="fa-regular fa-heart text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-light text-[#1A1A1A] mb-4 tracking-tight">
+            1. Donate
+          </h3>
+          <p class="text-gray-500 leading-relaxed">
+            Have surplus food? List it on netfoodia and help reduce waste while feeding those in need.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-[#F8F7F4] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#C5A059]/10 transition duration-300">
+          <i class="fa-regular fa-truck text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-light text-[#1A1A1A] mb-4 tracking-tight">
+            2. Volunteer Picks Up
+          </h3>
+          <p class="text-gray-500 leading-relaxed">
+            Our dedicated volunteers collect the food from your location at a convenient time.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="text-center group">
+          <div class="w-24 h-24 bg-[#F8F7F4] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-[#C5A059]/10 transition duration-300">
+            <i class="fa-solid fa-hand-holding-heart text-3xl "></i>
+          </div>
+          <h3 class="text-2xl font-light text-[#1A1A1A] mb-4 tracking-tight">
+            3. Delivered to Charity
+          </h3>
+          <p class="text-gray-500 leading-relaxed">
+            Food is delivered to local charities and organizations that distribute it to those who need it most.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+<section class="py-24 px-6 bg-gradient-to-r from-[#C5A059]/5 to-[#1A1A1A]/5">
+
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Title -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light text-[#1A1A1A] tracking-tight">
+        Our Impact
+      </h2>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Card 1 -->
+      <div class="text-center p-12 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 hover:shadow-lg transition">
+        <div class="text-4xl md:text-5xl font-bold text-[#1A1A1A] mb-4">50+</div>
+        <div class="text-xl font-medium text-[#0f0f0f]/60">Active Charities</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="text-center p-12 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 hover:shadow-lg transition">
+        <div class="text-4xl md:text-5xl font-bold text-[#1A1A1A] mb-4">1,000+</div>
+        <div class="text-xl font-medium text-[#0f0f0f]/60">Meals Donated</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="text-center p-12 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 hover:shadow-lg transition">
+        <div class="text-4xl md:text-5xl font-bold text-[#1A1A1A] mb-4">200+</div>
+        <div class="text-xl font-medium text-[#0f0f0f]/60">Volunteers</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+  <!-- =========================================== -->
+
+  <section class="py-16 px-6 bg-white">
+  <div class="max-w-5xl mx-auto border border-gray-200 rounded-2xl p-10 shadow-sm">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-semibold text-black mb-4">
+      Donate Surplus Food
+    </h2>
+
+    <p class="text-gray-500 mb-10">
+      Whether you're a restaurant, grocery store, or individual with extra food, your donation can make a difference.
+    </p>
+
+    <!-- Grid -->
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Item 1 -->
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-check text-gray-700 mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Restaurants & Cafes</h3>
+          <p class="text-gray-500 text-sm">End-of-day surplus, event leftovers</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-check text-gray-700 mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Grocery Stores</h3>
+          <p class="text-gray-500 text-sm">Near-expiry items, cosmetically imperfect produce</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-check text-gray-700 mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Events & Catering</h3>
+          <p class="text-gray-500 text-sm">Conference leftovers, party surplus</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-check text-gray-700 mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Individuals</h3>
+          <p class="text-gray-500 text-sm">Unopened packages, excess from gatherings</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Button -->
+    <div class="mt-10">
+      <button
+        class="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-gray-900 transition"
+        (click)="goToLogin()"
+      >
+        Start Donating
+      </button>
+    </div>
+
+  </div>
+</section>
+<!-- ============================================== -->
+<!-- Partner Charities Section -->
+<section class="py-16 px-6 bg-[#FAF9F6]">
+  <div class="max-w-5xl mx-auto">
+
+    <!-- Title -->
+    <h2 class="text-3xl font-semibold text-black mb-4">
+      Partner Charities
+    </h2>
+
+    <p class="text-gray-500 mb-10">
+      Are you a charity, food bank, or community organization? Join our network to receive food donations for those you serve.
+    </p>
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl p-10 shadow-sm border border-gray-200">
+
+      <!-- Item 1 -->
+      <div class="flex items-start gap-4 mb-6">
+        <i class="fa-solid fa-file-circle-check text-black text-xl mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Verified Partners</h3>
+          <p class="text-gray-500 text-sm">
+            All charities are verified to ensure food reaches those in need
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="flex items-start gap-4 mb-6">
+        <i class="fa-solid fa-truck text-black text-xl mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Regular Deliveries</h3>
+          <p class="text-gray-500 text-sm">
+            Receive consistent food donations from local donors
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="flex items-start gap-4 mb-10">
+        <i class="fa-regular fa-heart text-black text-xl mt-1"></i>
+        <div>
+          <h3 class="font-semibold text-black">Community Impact</h3>
+          <p class="text-gray-500 text-sm">
+            Help reduce food waste while serving your community
+          </p>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button
+        class="w-full bg-[#05070a] text-white py-4 rounded-xl font-semibold text-lg hover:bg-black transition"
+        (click)="goToRegister()"
+      >
+        Register Your Organization
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- =================================================== -->
+<section class="py-16 px-6 bg-[#f3f4f6]">
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Header (Outside the Card) -->
+    <h2 class="text-2xl font-bold text-black mb-2">
+      Become a Volunteer
+    </h2>
+    <p class="text-gray-500 mb-8">
+      Join our network of volunteers who make food rescue possible. Flexible hours, meaningful impact.
+    </p>
+
+    <!-- Main Card -->
+    <div class="bg-white rounded-xl p-10 shadow-sm">
+      
+      <!-- List Items (Vertical Logic) -->
+      <div class="space-y-8 mb-10">
+
+        <!-- Item 1 -->
+        <div class="flex items-start gap-4">
+          <div class="mt-1">
+            <i class="fa-solid fa-user-group text-black text-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-semibold text-black">Flexible Schedule</h3>
+            <p class="text-gray-500 text-sm">Choose pickups that fit your availability</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex items-start gap-4">
+          <div class="mt-1">
+            <i class="fa-solid fa-location-dot text-black text-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-semibold text-black">Local Routes</h3>
+            <p class="text-gray-500 text-sm">Work in your neighborhood or nearby areas</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex items-start gap-4">
+          <div class="mt-1">
+            <i class="fa-regular fa-heart text-black text-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-semibold text-black">Make a Difference</h3>
+            <p class="text-gray-500 text-sm">Directly contribute to reducing food waste and helping your community</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Button -->
+      <button
+        class="w-full bg-[#05070a] text-white py-4 rounded-xl font-semibold text-lg hover:bg-black transition"
+        (click)="goToLogin()"
+      >
+        Sign Up to Volunteer
+      </button>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer class="bg-[#1A1A1A] text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto text-center">
+      <div class="text-2xl font-bold tracking-[0.2em] text-[#C5A059] mb-4">
+        NETFOODIA
+      </div>
+      <p class="text-gray-400 max-w-md mx-auto leading-relaxed">
+        Reducing food waste, one meal at a time.
+      </p>
+    </div>
+  </footer>
+
+</main>
