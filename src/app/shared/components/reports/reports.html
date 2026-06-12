@@ -1,0 +1,177 @@
+<div class="reports-page" [class.night]="nightMode">
+  <div class="inner">
+
+    <!-- ── Header ── -->
+    <div class="page-header">
+      <div class="header-left">
+        <p class="eyebrow">Analytics</p>
+        <h1 class="page-title">Donation <span class="accent">Reports</span></h1>
+      </div>
+
+      <div class="header-right">
+        <span class="generated-at" *ngIf="reportsData?.generatedAt">
+          Generated {{ reportsData!.generatedAt | date:'MMM d, y · h:mm a' }}
+        </span>
+
+        <!-- Night Mode Toggle -->
+        <div class="night-toggle" (click)="toggleNightMode()" title="Toggle night mode">
+          <div class="toggle-track">
+            <div class="toggle-thumb"></div>
+          </div>
+          <span class="toggle-label">{{ nightMode ? '🌙 Night' : '☀️ Day' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Filters ── -->
+    <div class="glass-card filter-section">
+      <p class="section-label">Filter Reports</p>
+
+      <form [formGroup]="filterForm" class="filter-grid">
+
+        <!-- From -->
+        <div class="field-wrap">
+          <label class="field-label">From</label>
+          <input type="date" formControlName="from" class="field-input" />
+        </div>
+
+        <!-- To -->
+        <div class="field-wrap">
+          <label class="field-label">To</label>
+          <input type="date" formControlName="to" class="field-input" />
+        </div>
+
+        <!-- Unit Type -->
+        <div class="field-wrap">
+          <label class="field-label">Unit Type</label>
+          <div class="select-wrapper">
+            <select formControlName="unitType" class="field-select">
+              <option value="">All Units</option>
+              <option *ngFor="let u of unitTypes" [value]="u">{{ u }}</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+
+        <!-- Food Type -->
+        <div class="field-wrap">
+          <label class="field-label">Food Type</label>
+          <div class="select-wrapper">
+            <select formControlName="foodType" class="field-select">
+              <option value="">All Types</option>
+              <option *ngFor="let f of foodTypes" [value]="f">{{ f }}</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="filter-actions">
+        <button class="btn-primary" (click)="applyFilters()">
+           Apply Filters
+        </button>
+        <button class="btn-ghost" (click)="resetFilters()">
+          ↺ Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Loading ── -->
+    <div *ngIf="loading" class="glass-card spinner-wrap">
+      <div class="spinner"></div>
+      <p class="spinner-text">Generating report…</p>
+    </div>
+
+    <!-- ── Empty prompt ── -->
+    <div *ngIf="!hasSearched && !loading" class="glass-card state-box">
+      <div class="state-icon">📊</div>
+      <p class="state-title">No report generated yet</p>
+      <p class="state-sub">Set your filters and click <strong>Apply Filters</strong> to see results</p>
+    </div>
+
+    <!-- ── No data ── -->
+    <div *ngIf="hasSearched && !loading && reportsData && !reportsData.groups.length"
+         class="glass-card state-box">
+      <div class="state-icon">🔍</div>
+      <p class="state-title">No data found</p>
+      <p class="state-sub">Try adjusting your filter criteria</p>
+    </div>
+
+    <!-- ── Results ── -->
+    <ng-container *ngIf="hasSearched && !loading && reportsData?.groups?.length">
+
+      <!-- Summary Stats -->
+      <div class="stats-row">
+
+        <div class="stat-card stat-card-gold">
+          <p class="stat-label">Total Donations</p>
+          <p class="stat-value">{{ reportsData!.grandTotalDonations }}</p>
+          <p class="stat-sub">across all groups</p>
+        </div>
+
+        <div class="stat-card stat-card-indigo">
+          <p class="stat-label">Total Quantity</p>
+          <p class="stat-value">{{ reportsData!.grandTotalQuantity | number }}</p>
+          <p class="stat-sub">combined units</p>
+        </div>
+
+        <div class="stat-card stat-card-teal">
+          <p class="stat-label">Unit Groups</p>
+          <p class="stat-value">{{ reportsData!.groups.length }}</p>
+          <p class="stat-sub">distinct categories</p>
+        </div>
+
+      </div>
+
+      <!-- Group Cards -->
+      <div class="groups-stack">
+        <div *ngFor="let group of reportsData!.groups" class="glass-card group-card">
+
+          <!-- Group Header -->
+          <div class="group-header">
+            <div class="group-title-wrap">
+              <span class="group-badge"> {{ group.unitType }}</span>
+              <p class="group-donations pl-2">{{ group.totalDonations }} donations</p>
+            </div>
+            <div class="group-qty-block">
+              <p class="group-qty-value">{{ group.totalQuantity | number }}</p>
+              <p class="group-qty-label">Total Quantity</p>
+            </div>
+          </div>
+
+          <!-- Food Type Cards -->
+          <div class="food-grid">
+            <div *ngFor="let food of group.byFoodType" class="food-card">
+
+              <div class="food-card-top">
+                <div>
+                  <p class="food-name">{{ food.foodType }}</p>
+                  <p class="food-count">{{ food.donationCount }} donations</p>
+                </div>
+                <span *ngIf="food.expiredCount > 0" class="expired-badge">
+                  {{ food.expiredCount }} expired
+                </span>
+              </div>
+
+              <div class="food-card-bottom">
+                <div>
+                  <p class="food-qty-value">{{ food.totalQuantity | number }}</p>
+                  <p class="food-qty-label">Quantity</p>
+                </div>
+                <div>
+                  <p class="food-shelf-value">{{ food.averageShelfLifeRemainingHours | number:'1.1-1' }}h</p>
+                  <p class="food-shelf-label">Avg Shelf Life</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </ng-container>
+
+  </div>
+</div>
