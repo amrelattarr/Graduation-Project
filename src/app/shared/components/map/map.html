@@ -1,0 +1,63 @@
+<div class="h-full flex flex-col bg-gray-50 overflow-hidden">
+
+<!-- HEADER -->
+<div class="px-4 py-4 bg-white border-b flex items-center justify-between shadow-sm shrink-0 z-10">
+
+    <h2 class="font-semibold text-gray-800 text-base flex items-center gap-2">
+  
+      <span class="w-2 h-2 rounded-full bg-[#C5A059]"></span>
+  
+      Pick Location
+  
+    </h2>
+  
+  </div>
+  
+  <!-- MAP -->
+  <div class="flex-1 p-4 min-h-0 bg-gray-50">
+  
+    <div class="h-full rounded-2xl overflow-hidden border border-gray-100 shadow-md bg-white relative">
+  
+      <!-- subtle top glow accent -->
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#C5A059]/40 via-[#C5A059] to-[#C5A059]/40"></div>
+  
+      <!-- map -->
+      <div id="map" class="h-full w-full"></div>
+  
+    </div>
+  
+  </div>
+  
+<!-- BOTTOM PANEL -->
+<div class="px-4 pb-5 shrink-0 bg-gray-50">
+
+    <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-5 space-y-4">
+  
+      <!-- subtle divider -->
+      <div class="h-px bg-gray-100"></div>
+  
+      <!-- Hint text (optional but modern UX) -->
+      <p class="text-xs text-gray-400 text-center tracking-wide">
+        Select a location on the map before confirming
+      </p>
+  
+      <!-- Confirm Button -->
+      <button
+        (click)="confirmLocation()"
+        class="w-full flex items-center justify-center gap-2
+               bg-[#C5A059] hover:bg-[#b8924d]
+               text-white py-3.5 rounded-xl font-semibold
+               shadow-sm transition-all duration-200
+               active:scale-[0.98]">
+  
+        <i class="fa-solid fa-location-dot text-white/90"></i>
+  
+        <span>Confirm Location</span>
+  
+      </button>
+  
+    </div>
+  
+  </div>
+  
+  </div>

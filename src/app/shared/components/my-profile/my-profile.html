@@ -1,0 +1,108 @@
+<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-6 space-y-6 mt-7">
+
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-gray-700 border-b pb-3">
+      My Profile
+    </h2>
+  
+    <!-- USER SECTION -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
+      <div>
+        <label class="text-sm text-gray-500">Full Name</label>
+        <input
+          class="w-full p-2 border rounded-lg bg-gray-100"
+          [value]="myProfileData?.user?.fullName"
+          disabled
+        />
+      </div>
+  
+      <div>
+        <label class="text-sm text-gray-500">Email</label>
+        <input
+          class="w-full p-2 border rounded-lg bg-gray-100"
+          [value]="myProfileData?.user?.email"
+          disabled
+        />
+      </div>
+  
+      <div>
+        <label class="text-sm text-gray-500">Phone</label>
+        <input
+          class="w-full p-2 border rounded-lg bg-gray-100"
+          [value]="myProfileData?.user?.phoneNumber"
+          disabled
+        />
+      </div>
+  
+      <div>
+        <label class="text-sm text-gray-500">Role</label>
+        <input
+          class="w-full p-2 border rounded-lg bg-gray-100 font-semibold text-[#C5A059]"
+          [value]="myProfileData?.role"
+          disabled
+        />
+      </div>
+  
+    </div>
+  
+    <!-- DONOR SECTION -->
+    @if (myProfileData?.donor) {
+      <div class="border-t pt-4 space-y-4">
+  
+        <h3 class="text-lg font-semibold text-gray-600">Donor Information</h3>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
+          <div>
+            <label class="text-sm text-gray-500">Business Type</label>
+            <input class="w-full p-2 border rounded-lg bg-gray-100"
+              [value]="myProfileData?.donor?.businessType"
+              disabled />
+          </div>
+  
+          <div>
+            <label class="text-sm text-gray-500">Address</label>
+            <input class="w-full p-2 border rounded-lg bg-gray-100"
+              [value]="myProfileData?.donor?.address"
+              disabled />
+          </div>
+  
+        </div>
+      </div>
+    }
+  
+    <!-- VOLUNTEER SECTION -->
+    @if (myProfileData?.volunteer) {
+      <div class="border-t pt-4 space-y-4">
+  
+        <h3 class="text-lg font-semibold text-gray-600">Volunteer Information</h3>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
+          <div>
+            <label class="text-sm text-gray-500">Vehicle Type</label>
+            <input class="w-full p-2 border rounded-lg bg-gray-100"
+              [value]="myProfileData?.volunteer?.vehicleType"
+              disabled />
+          </div>
+  
+          <div>
+            <label class="text-sm text-gray-500">Address</label>
+            <input class="w-full p-2 border rounded-lg bg-gray-100"
+              [value]="myProfileData?.volunteer?.address"
+              disabled />
+          </div>
+  
+          <div>
+            <label class="text-sm text-gray-500">Status</label>
+            <input class="w-full p-2 border rounded-lg bg-gray-100 font-medium"
+              [value]="myProfileData?.volunteer?.status"
+              disabled />
+          </div>
+  
+        </div>
+      </div>
+    }
+  
+  </div>

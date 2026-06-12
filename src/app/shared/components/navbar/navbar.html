@@ -1,0 +1,63 @@
+<nav class="bg-[#FAF9F6]/90 backdrop-blur-xl border-b border-[#F0EBE3] px-6 py-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <span class="h-[1px] w-8 bg-[#C5A059]"></span>
+      <div class="text-xl font-bold tracking-[0.2em] text-[#C5A059]">
+        NETFOODIA
+      </div>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="flex items-center gap-3">
+
+      <!-- Notification Bell - Volunteer Only -->
+      <button
+        *ngIf="isLoggedIn() && isVolunteer()"
+        routerLink="/notifications"
+        class="relative w-11 h-11 flex items-center justify-center rounded-full bg-white border border-[#F0EBE3] text-[#1A1A1A] shadow-sm hover:shadow-md hover:text-[#C5A059] transition-all duration-200 cursor-pointer"
+      >
+        <i class="fa-solid fa-bell text-sm"></i>
+
+        <span
+          *ngIf="(notificationService.unreadCount$ | async) as count"
+          class="absolute -top-1 -right-1 bg-[#C5A059] text-white text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center font-bold"
+        >
+          @if(count > 0) {
+            {{ count }}
+          }
+        </span>
+      </button>
+
+      <!-- Change Password -->
+      <button
+        *ngIf="isLoggedIn()"
+        routerLink="/change-password"
+        class="hidden md:inline-flex bg-white border border-[#F0EBE3] text-[#1A1A1A] px-5 py-3 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm hover:shadow-md hover:text-[#C5A059] transition-all duration-200 cursor-pointer"
+      >
+        Change Password
+      </button>
+
+      <!-- Profile -->
+      <button
+        *ngIf="isLoggedIn()"
+        routerLink="/my-profile"
+        class="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-[#F0EBE3] text-[#1A1A1A] shadow-sm hover:shadow-md hover:text-[#C5A059] transition-all duration-200 cursor-pointer"
+      >
+        <i class="fa-solid fa-user text-sm"></i>
+      </button>
+
+      <!-- Logout -->
+      <button
+        *ngIf="isLoggedIn()"
+        (click)="logout()"
+        class="bg-[#1A1A1A] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-black hover:shadow-[0_15px_30px_rgba(0,0,0,0.15)] transition-all duration-200 cursor-pointer"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+</nav>
