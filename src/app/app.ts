@@ -12,11 +12,8 @@ import { NotificationService } from './core/services/notification-service';
 })
 export class App implements OnInit {
   private readonly notificationService = inject(NotificationService);
-  protected title = 'grad-project';
 
   ngOnInit(): void {
-    if (localStorage.getItem('accessToken')) {
-      this.notificationService.startConnection();
-    }
+    this.notificationService.startConnection(); // ✅ once, app-wide
   }
 }

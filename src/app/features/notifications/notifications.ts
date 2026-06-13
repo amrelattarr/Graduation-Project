@@ -13,18 +13,18 @@ import { NotificationService } from '../../core/services/notification-service';
 export class Notifications {
   readonly notificationService = inject(NotificationService);
 
-  ngOnInit(): void {
-    this.notificationService.loadMyNotifications();
-  }
+  // ngOnInit(): void {
+  //   this.notificationService.startConnection(); // ✅ ADD THIS
+  //   this.notificationService.loadMyNotifications();
+  // }
 
   markAsRead(notification: any): void {
     const id = notification.notificationId || notification.id;
-
     if (!id) return;
 
     this.notificationService.markAsRead(id).subscribe({
       next: () => this.notificationService.updateOneAsRead(id),
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 }
