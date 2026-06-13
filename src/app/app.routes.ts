@@ -32,6 +32,7 @@ import { Notifications } from './features/notifications/notifications';
 import { NotFound } from './shared/components/not-found/not-found';
 import { Reports } from './shared/components/reports/reports';
 import { HomePage } from './features/home-page/home-page';
+import { ForgotPassword } from './core/auth/forgot-password/forgot-password';
 
 export const routes: Routes = [
     {path: '' , redirectTo: 'home-page', pathMatch: 'full'},
@@ -39,6 +40,7 @@ export const routes: Routes = [
     {path: '' , component: AuthLayout, canActivate:[isLoggedGuard], children: [
         {path: 'login', component: Login , title: 'Login page'},
         {path: 'register', component: Register , title: 'Register page'},
+        {path: 'forgot-password', component: ForgotPassword , title: 'Forgot password page'},
     ]},
     {path: '' , component: CharityAdminLayout,canActivate:[authGuard, roleGuard, charityApprovalGuard], data: { roles: ['CharityAdmin'] } ,children: [
         {path: 'charity-admin-home', component:CharityAdminHome , title: 'Charity admin home page'},

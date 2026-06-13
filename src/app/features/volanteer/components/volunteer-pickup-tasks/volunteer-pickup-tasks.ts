@@ -134,8 +134,17 @@ export class VolunteerPickupTasks implements OnInit {
     });
   }
 
-  addHours(dateString: string, hours: number): Date {
+  addHours(dateString: string | null | undefined, hours: number): Date | null {
+    if (!dateString) {
+      return null;
+    }
+
     const date = new Date(dateString);
+
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
+
     date.setHours(date.getHours() + hours);
     return date;
   }
@@ -153,6 +162,7 @@ export class VolunteerPickupTasks implements OnInit {
   
         this.history = data.map((item: any) => ({
           ...item,
+          createdAt: this.addHours(item.createdAt, 3),
           completedAt: this.addHours(item.completedAt, 3)
         }));
   

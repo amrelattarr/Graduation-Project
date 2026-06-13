@@ -32,9 +32,6 @@ export interface VolunteerPickupHistory {
   status: string;
   createdAt: string;
   completedAt: string | null;
-  startedAt?: string | null;
-  slaDueAt?: string | null;
-  inspectionResult?: string | null;
 }
 
 export enum VolunteerAvailabilityStatus {

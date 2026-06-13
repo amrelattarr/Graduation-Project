@@ -1,3 +1,4 @@
+import { ForgotPassword } from './../forgot-password/forgot-password';
 // import { HttpClient } from '@angular/common/http';
 // import { inject, Injectable } from '@angular/core';
 // import { Router } from '@angular/router';
@@ -279,5 +280,13 @@ export class AuthService {
       environment.baseUrl + 'Authentication/RefreshToken',
       { refreshToken }
     );
+  }
+
+  ForgotPassword(data: object): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + 'Authentication/ForgotPassword' , data);
+  }
+
+  ResetPassword(data: object): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + 'Authentication/ResetPassword' , data);
   }
 }
